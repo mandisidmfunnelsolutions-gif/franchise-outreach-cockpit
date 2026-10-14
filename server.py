@@ -88,5 +88,11 @@ def main():
             print("\n[!] Dev server stopped.")
             httpd.server_close()
 
+# Vercel Serverless Function entrypoint exports
+handler = FranchiseDashboardHandler
+app = handler
+application = handler
+
 if __name__ == "__main__":
     main()
+
