@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Franchise AI Adoption Study — LinkedIn Outreach Cockpit | University of Pretoria</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom scrollbar & aesthetic micro-tweaks */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.5); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.8); }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px 1px rgba(99, 102, 241, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Header Section -->
+    <header class="glass-panel rounded-2xl p-6 sm:p-8 relative overflow-hidden border border-slate-800 shadow-2xl">
+      <div class="absolute -right-16 -top-16 w-80 h-80 bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-80 h-80 bg-gradient-to-tr from-amber-500/10 via-emerald-500/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-3">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            University of Pretoria • BCom (Hons) Strategic Business Management
+          </div>
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+            Franchise AI Adoption Study <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-amber-300">Outreach Cockpit</span>
+          </h1>
+          <p class="text-slate-400 mt-2 text-sm sm:text-base max-w-3xl leading-relaxed">
+            Targeting 88 Verified South African Fast Food & F&B Franchisees (Spur, Famous Brands, McDonald's, KFC, Roman's Pizza). Select any card to review profile insights and copy tailor-made, academic outreach messages.
+          </p>
+        </div>
+        
+        <div class="flex items-center gap-3 self-start md:self-center">
+          <button id="btnExport" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shadow-sm hover:border-slate-600">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Export Lead List
+          </button>
+          <button id="btnResetProgress" class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-medium text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition">
+            Reset Status
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-800/80">
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Total Verified Leads</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl font-bold text-white" id="statTotal">88</span>
+            <span class="text-xs text-indigo-400">100% Live</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Messages Copied</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl font-bold text-amber-400" id="statCopied">0</span>
+            <span class="text-xs text-slate-500" id="statCopiedPct">0%</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Contacted / Sent</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl font-bold text-emerald-400" id="statSent">0</span>
+            <span class="text-xs text-slate-500" id="statSentPct">0%</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+          <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Pending Outreach</p>
+          <div class="flex items-baseline gap-2 mt-1">
+            <span class="text-2xl font-bold text-slate-300" id="statPending">88</span>
+            <span class="text-xs text-slate-500">Uncontacted</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="glass-panel rounded-2xl p-4 sm:p-5 border border-slate-800 flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+      <!-- Search Box -->
+      <div class="relative flex-1">
+        <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search by name, franchise (Spur, Steers, KFC...), title, or city..." 
+          class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition"
+        />
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+        <!-- Brand Group Filter -->
+        <select id="brandFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <option value="all">All Franchise Networks</option>
+          <option value="spur">Spur Group (Spur, RocoMamas, Panarottis)</option>
+          <option value="famous">Famous Brands (Steers, Debonairs, Wimpy)</option>
+          <option value="mcdonalds">McDonald's</option>
+          <option value="romans">Roman's Pizza</option>
+          <option value="chicken">Chicken QSR (KFC, Nando's, Chicken Licken)</option>
+          <option value="cafe">Cafe / QSR (Kauai, Ocean Basket, Vida)</option>
+        </select>
+
+        <!-- Region Filter -->
+        <select id="regionFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <option value="all">All Regions (SA)</option>
+          <option value="Gauteng">Gauteng (JHB / Pretoria)</option>
+          <option value="Western Cape">Western Cape (Cape Town)</option>
+          <option value="KwaZulu-Natal">KwaZulu-Natal (Durban)</option>
+          <option value="Limpopo">Limpopo</option>
+          <option value="Mpumalanga">Mpumalanga</option>
+        </select>
+
+        <!-- Status Filter -->
+        <select id="statusFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-xs sm:text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          <option value="all">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="copied">Message Copied</option>
+          <option value="sent">Contacted</option>
+          <option value="starred">Starred / High Priority</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Active Filters & Result Count -->
+    <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+      <span id="resultCountLabel">Showing 88 of 88 franchise owners</span>
+      <span class="hidden sm:inline">Tip: Click any card to launch the Outreach & Message modal</span>
+    </div>
+
+    <!-- Leads Grid -->
+    <div id="leadsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden glass-panel rounded-2xl p-12 text-center border border-slate-800">
+      <div class="w-16 h-16 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-slate-400 mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3 class="text-lg font-bold text-white">No matching franchise owners found</h3>
+      <p class="text-slate-400 text-sm mt-1 max-w-sm mx-auto">Try clearing your search terms or relaxing brand/region filters.</p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-medium transition">
+        Reset All Filters
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Detail & Outreach Modal -->
+  <div id="modalBackdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 hidden opacity-0 transition-opacity duration-200">
+    <div id="modalBox" class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-3xl max-h-[92vh] flex flex-col shadow-2xl transform scale-95 transition-transform duration-200 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-5 border-b border-slate-800 bg-slate-900/90 flex items-start justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div id="modalAvatar" class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-amber-500 flex items-center justify-center font-bold text-lg text-white shadow-md">
+            RP
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 id="modalName" class="text-xl font-bold text-white">Riyaadh Petersen</h2>
+              <button id="modalStarBtn" onclick="toggleLeadStarCurrent()" class="text-slate-500 hover:text-amber-400 transition" title="Star lead">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              </button>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-1">
+              <span id="modalBrandBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                Spur Steak Ranches
+              </span>
+              <span id="modalRole" class="text-xs text-slate-300 font-medium">Franchisee</span>
+              <span class="text-xs text-slate-500">•</span>
+              <span id="modalLocation" class="text-xs text-slate-400 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Cape Town
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a id="modalLinkedinLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#0A66C2]/20 hover:bg-[#0A66C2]/30 text-[#70B5F9] border border-[#0A66C2]/40 transition">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>
+            Open Profile
+          </a>
+          <button onclick="closeModal()" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-sm">
+
+        <!-- LinkedIn Summary Snippet -->
+        <div class="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
+          <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold mb-1">LinkedIn Profile Evidence</p>
+          <p id="modalSnippet" class="text-slate-300 text-xs italic leading-relaxed">
+            "Riyaadh Petersen. Franchisee of RocoMamas, Spur Steak Ranches & Panarottis..."
+          </p>
+        </div>
+
+        <!-- Tabbed Message Drafter -->
+        <div>
+          <div class="flex border-b border-slate-800 gap-6 text-xs font-semibold">
+            <button id="tabPostConnectBtn" onclick="switchTab('postConnect')" class="pb-2.5 text-indigo-400 border-b-2 border-indigo-500 transition">
+              1. Post-Connection LinkedIn DM (Recommended)
+            </button>
+            <button id="tabPreConnectBtn" onclick="switchTab('preConnect')" class="pb-2.5 text-slate-400 hover:text-slate-200 transition">
+              2. Pre-Connect Note (&lt;300 Chars)
+            </button>
+            <button id="tabStudyNotesBtn" onclick="switchTab('studyNotes')" class="pb-2.5 text-slate-400 hover:text-slate-200 transition">
+              3. Study Context & Cheat-Sheet
+            </button>
+          </div>
+
+          <!-- Tab 1: Post-Connection Message -->
+          <div id="tabPostConnect" class="pt-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-400">Personalized for <strong id="msgTargetName" class="text-white">Riyaadh</strong>:</span>
+              <button onclick="copyCurrentMessage('postConnect')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-sm">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                Copy Message
+              </button>
+            </div>
+            <textarea id="postConnectText" rows="12" class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-4 text-xs sm:text-sm text-slate-200 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/50"></textarea>
+          </div>
+
+          <!-- Tab 2: Connection Note -->
+          <div id="tabPreConnect" class="pt-4 space-y-3 hidden">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-400">Add to LinkedIn "Add a note" (<span id="preConnectCharCount" class="text-amber-400">0</span>/300 chars):</span>
+              <button onclick="copyCurrentMessage('preConnect')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-sm">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                Copy Note
+              </button>
+            </div>
+            <textarea id="preConnectText" rows="4" class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-4 text-xs sm:text-sm text-slate-200 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/50"></textarea>
+          </div>
+
+          <!-- Tab 3: Study Notes & Cheat Sheet -->
+          <div id="tabStudyNotes" class="pt-4 space-y-4 hidden text-xs text-slate-300">
+            <div class="p-4 rounded-xl bg-slate-950/50 border border-slate-800 space-y-3">
+              <h4 class="font-bold text-amber-300 uppercase tracking-wider text-[11px]">Academic Context & Objections Handling</h4>
+              <p><strong>Institution:</strong> University of Pretoria, Department of Business Management</p>
+              <p><strong>Qualification:</strong> BCom (Honours) in Strategic Business Management</p>
+              <p><strong>Research Core:</strong> Evaluating practical barriers, operational leverage, and AI readiness across South African Quick Service Restaurant (QSR) and Food & Beverage franchise operators.</p>
+              <p><strong>Confidentiality Guarantee:</strong> Strict academic ethics compliance. Data is aggregated anonymously. No individual proprietary financial data is published.</p>
+              <p><strong>Reciprocal Value:</strong> Every participating franchisee receives a complimentary copy of the compiled <em>"AI & Operational Automation Benchmark for SA Franchise Operations"</em>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outreach Status Selector & Private Notes -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Outreach Status</label>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="setLeadStatus('pending')" id="statusBtn_pending" class="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300">Pending</button>
+              <button onclick="setLeadStatus('copied')" id="statusBtn_copied" class="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300">Message Copied</button>
+              <button onclick="setLeadStatus('sent')" id="statusBtn_sent" class="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300">Contacted / Sent</button>
+              <button onclick="setLeadStatus('connected')" id="statusBtn_connected" class="px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300">Connected</button>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Private Notes for this Lead</label>
+            <input type="text" id="leadNoteInput" onchange="saveLeadNote()" placeholder="e.g. Sent invite Oct 14; owns 3 Panarottis..." class="w-full bg-slate-950/80 border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-4 border-t border-slate-800 bg-slate-900/90 flex items-center justify-between text-xs text-slate-400">
+        <span id="modalLeadIdLabel">Lead #1 of 88</span>
+        <div class="flex items-center gap-3">
+          <button onclick="navigateLead(-1)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            ← Previous
+          </button>
+          <button onclick="navigateLead(1)" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            Next →
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-24 opacity-0 transition-all duration-300 z-50 text-sm font-medium border border-indigo-400/30">
+    <svg class="w-5 h-5 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toastMessage">Copied to clipboard!</span>
+  </div>
+
+  <script>
+    // Injected Lead Dataset (88 Verified Leads)
+    const LEADS_DATA = [{"full_name": "Riyaadh Petersen", "company_name": "Spur Steak Ranches, Panarottis, RocoMamas", "job_title": "Franchisee", "location": "Cape Town", "linkedin_url": "https://www.linkedin.com/in/riyaadh-petersen-18ba06203", "snippet": "Riyaadh Petersen. Franchisee of RocoMamas, Spur Steak Ranches & Panarottis. Spur Steak Ranch. City of Cape Town, Western ...", "id": "lead_1", "first_name": "Riyaadh"}, {"full_name": "Mthobisi Sibisi", "company_name": "Spur Steak Ranches", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/mthobisi-sibisi-042575a9", "snippet": "Mthobisi Sibisi. Franchisee at Spur. Spur. City of Johannesburg, Gauteng, South Africa. 31 followers 31 connections. See your mutual connections. View mutual ...", "id": "lead_2", "first_name": "Mthobisi"}, {"full_name": "Nico Botha", "company_name": "Spur Steak Ranches, Panarottis", "job_title": "Franchise Owner", "location": "Gauteng", "linkedin_url": "https://www.linkedin.com/in/nico-botha-91331753", "snippet": "Multiple Panarottis Pizza & Pasta Franchisee Owner (SPUR Corporation). Aug 2020 - Jul 2022 2 years. GP (Gauteng Province). ○ Panarottis Express Hatfield ...", "id": "lead_3", "first_name": "Nico"}, {"full_name": "Thys Wessels", "company_name": "Spur Steak Ranches", "job_title": "Franchisee", "location": "Johannesburg, Pretoria", "linkedin_url": "https://www.linkedin.com/in/thys-wessels-992681118", "snippet": "Thys Wessels. Franchisee, Spur Group. Spur Group University of Pretoria/Universiteit van Pretoria. City of Johannesburg ...", "id": "lead_4", "first_name": "Thys"}, {"full_name": "Chanel Coetzee", "company_name": "RocoMamas", "job_title": "Franchise Owner", "location": "Gauteng", "linkedin_url": "https://www.linkedin.com/in/chanel-coetzee-47409352", "snippet": "Chanel Coetzee. Franchise Owner at Rocomamas Restaurant. Rocomamas Restaurant North-West University/Noordwes-Universiteit. Vanderbijlpark, Gauteng, South ...", "id": "lead_5", "first_name": "Chanel"}, {"full_name": "Brendon Wessels", "company_name": "RocoMamas", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/brendon-wessels-3191b5219", "snippet": "MULTI-LOCATION FRANCHISEE CO-OWNER (Restaurants). RocoMamas. Dec 2014 - Oct 2025 10 years 11 months. Business operations and co-management of four restaurants", "id": "lead_6", "first_name": "Brendon"}, {"full_name": "Cornelius Kruger", "company_name": "Spur Steak Ranches", "job_title": "Franchise Owner", "location": "Pretoria", "linkedin_url": "https://www.linkedin.com/in/cornelius-kruger-a02446292", "snippet": "Franchise Owner at Spur · Experience: Spur · Location: Pretoria. View Cornelius Kruger's profile on LinkedIn, a professional community of 1 billion members.", "id": "lead_7", "first_name": "Cornelius"}, {"full_name": "Sakhiwo Mabuza", "company_name": "Steers, Famous Brands, Spur Steak Ranches", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/sakhiwo-mabuza-75191749", "snippet": "Franchisee · Driven,hard working, determined ... Franchise Owner. Famous Brands. Oct 2021 - Present 5 years 1 month. Steers. Franchise Owner. Spur Steak Ranch.", "id": "lead_8", "first_name": "Sakhiwo"}, {"full_name": "Derick Koekemoer", "company_name": "Spur Steak Ranches", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/derick-koekemoer-8b0a0b32", "snippet": "Spur Corporation Multiple Franchisee . City of Johannesburg, Gauteng ... Spur Corporation Multiple Franchisee. Jul 2024 - Present 2 years 4 months.", "id": "lead_9", "first_name": "Derick"}, {"full_name": "Yusrah Joseph", "company_name": "Panarottis", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/yusrah-joseph-6a08631aa", "snippet": "Franchise Owner at Panarottis Kenilworth · Experience: Panarottis Kenilworth · Education: Milpark Education · Location: 7780. View Yusrah Joseph's profile ...", "id": "lead_10", "first_name": "Yusrah"}, {"full_name": "elize fouche", "company_name": "Steers, Debonairs Pizza", "job_title": "Franchise Owner", "location": "Limpopo, Makhado", "linkedin_url": "https://www.linkedin.com/in/elize-fouche-79a700107", "snippet": "elize fouche. Franchise Owner at Steers snd Debonairs. Steers snd Debonairs. Makhado, Limpopo, South Africa. 16 followers 16 connections.Read more", "id": "lead_11", "first_name": "elize"}, {"full_name": "Kevin Hahn", "company_name": "Mugg & Bean", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/kevin-hahn-5a75b133", "snippet": "Experience ; Franchisee. Mugg & Bean George (Garden Route Mall). Sep 2005 ; Franchisee. Takealot & MrD Delivery Team. Mar 2015 ; Business Owner. Delivery Man. Sep ...Read more", "id": "lead_12", "first_name": "Kevin"}, {"full_name": "Christo Serfontein", "company_name": "Steers, Debonairs Pizza, Famous Brands", "job_title": "Franchisee", "location": "Cape Town, Western Cape, Paarl", "linkedin_url": "https://www.linkedin.com/in/christo-serfontein-5b665bba", "snippet": "Christo Serfontein. Franchisee Steers & Debonairs. Famous Brands Ltd Paarl Boys High. City of Cape Town, Western Cape, South Africa. 48 followers 46 connections.Read more", "id": "lead_13", "first_name": "Christo"}, {"full_name": "Marco Romano Caldeira", "company_name": "Steers, Debonairs Pizza, Fishaways, Famous Brands", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/marcoromanocaldeira89", "snippet": "Franchise Owner – Famous Brands Debonairs, Steers, Fishaways (2009 – 2025Franchise Owner – Famous Brands Debonairs, Steers, Fishaways (2009 – 2025)Read more", "id": "lead_14", "first_name": "Marco"}, {"full_name": "Gerhard Burger", "company_name": "Steers, Debonairs Pizza", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/gerhard-burger-8847bb121", "snippet": "Franchisee Debonairs Pizza · Experience: Debonairs Pizza - Try Something ... Manager at Steers & Debonairs Pizza from 1997 till 2004 in Newcastle KZN.Read more", "id": "lead_15", "first_name": "Gerhard"}, {"full_name": "Philip Helena", "company_name": "Steers, Debonairs Pizza", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/philip-helena-38909a4a", "snippet": "Franchisee Debonairs Pizza Mall @Carnival · Experience: Debonairs ... restaurant steers. Mar 1999 - Jun 2001 2 years 4 months. Education. Damelin Boksburg.Read more", "id": "lead_16", "first_name": "Philip"}, {"full_name": "Elethu Ngalwana", "company_name": "Debonairs Pizza, Famous Brands", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/elethu-ngalwana-a9a966159", "snippet": "Elethu Ngalwana · Senior Manager: Franchising Operations- Famous Brands( Debonairs Pizza) | ND: Consumer Science: Food & Nutrition · View mutual connections with ...Read more", "id": "lead_17", "first_name": "Elethu"}, {"full_name": "Nonkqubo Lindiwe Qangule Sigcau", "company_name": "Steers, Debonairs Pizza", "job_title": "Franchisee", "location": "Durban, KwaZulu-Natal", "linkedin_url": "https://www.linkedin.com/in/nonkqubo-lindiwe-qangule-sigcau-716042151", "snippet": "Nonkqubo Lindiwe Qangule Sigcau. Franchisee Steers and Debonairs Pizza. Rawson Properties Paulshof University of KwaZulu-Natal. Durban, KwaZulu ...Read more", "id": "lead_18", "first_name": "Nonkqubo"}, {"full_name": "Andre Uys", "company_name": "Steers, Fishaways, Famous Brands", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/andre-uys-15a2aa44", "snippet": "Franchisee Steers and Fishaways. Franchisee. Famous Brands. Jun 1999 - Nov 2016 ... Franchise Owner Famous Brands. Randburg. MDP Unisa Business, Management ...Read more", "id": "lead_19", "first_name": "Andre"}, {"full_name": "Juanita du Preez", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Director", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/juanita-du-preez", "snippet": "Franchise Director Operations-Game Changer Organisational Growth · As a seasoned professional with extensive experience in restaurant management and", "id": "lead_20", "first_name": "Juanita"}, {"full_name": "David Keyser", "company_name": "Food Lover's Market", "job_title": "Franchise Director", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/david-keyser-2b270949", "snippet": "Franchise Partner Food Lovers Market Knysna · Experienced Retailer with a ... Franchise Director Pick n Pay. 2017. Merit AWARD. General Manager Pick n Pay.Read more", "id": "lead_21", "first_name": "David"}, {"full_name": "Santosh Ramdass", "company_name": "Famous Brands", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/santosh-ramdass-0a2a02111", "snippet": "To ensure that franchise policies/agreements are strictly adhered to by all franchisees. Consistency across all standards in food quality, service, safety are ...Read more", "id": "lead_22", "first_name": "Santosh"}, {"full_name": "Joseph Malakalaka", "company_name": "Nando's", "job_title": "Franchise Partner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/joseph-malakalaka-b503a09b", "snippet": "Nando's SA Franchise Partner | Changing Lives, One Chicken at a Time | 2022 ... restaurant industry professional with over 20 years of experience in ...", "id": "lead_23", "first_name": "Joseph"}, {"full_name": "Carlo Gonzaga", "company_name": "Fast Food / F&B Franchise", "job_title": "Multi-unit Franchisee", "location": "Durban", "linkedin_url": "https://www.linkedin.com/in/carlogonzaga", "snippet": "... food group I co-founded; sit on the advisory board of the Mohinani Group in ... Multi-unit Franchisee. Dec 1996 - Dec 1999 3 years 1 month. Durban, South ...Read more", "id": "lead_24", "first_name": "Carlo"}, {"full_name": "Gerald van Wyk", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Director", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/gerald-van-wyk-183938b3", "snippet": "Daily running of restaurant, orders, training ... Franchise Director. Mr Rooster. 1996 - 1998 2 years ... Front Office Manager/Food and Beverage manager.", "id": "lead_25", "first_name": "Gerald"}, {"full_name": "Milton Lang", "company_name": "KFC", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/milton-lang-79285a2b", "snippet": "Franchise Owner · I was born and educated in KZN and matriculated from ... KFC franchise of 27 outlets (Sales of R200M p.a, employing +- 600) , based ...", "id": "lead_26", "first_name": "Milton"}, {"full_name": "Donald Polley", "company_name": "KFC", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/donaldpolley", "snippet": "The Knysna KFC franchise is owned by Dottogo Trading, a leading fast food ... Reporting to the owner, responsibilities included F&B controls, opening ...", "id": "lead_27", "first_name": "Donald"}, {"full_name": "Belinda Altenroxel", "company_name": "Debonairs Pizza, Fishaways", "job_title": "Franchise Partner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/belinda-altenroxel-6ab89a9", "snippet": "Business owner - Debonairs and Fishaways · Experience: Debonairs and ... Partner in Fishaways and Debonairs franchise. Running 5 franchise business's ...", "id": "lead_28", "first_name": "Belinda"}, {"full_name": "Cornelis Schraverus", "company_name": "Steers, Debonairs Pizza", "job_title": "Franchise Director", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/cornelis-schraverus-23428371", "snippet": "Experience ; Business Owner. CJ Trailer Rentals. Feb 2016 ; Director. Steers & Debonairs Franchise. May 2007 ; Letting Agent. Smith Anderson Realty. Oct 2013 ...", "id": "lead_29", "first_name": "Cornelis"}, {"full_name": "Dean Smith", "company_name": "Spur Steak Ranches", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/dean-smith-13163272", "snippet": "Spur Franchise Owner. Spur Steak Ranches. Sep 2003 - Dec 2004 1 year 4 months. Meyerton. Divisional Operations Manager. Edcon. May 1993 - Jun 2003 10 years 2 ...", "id": "lead_30", "first_name": "Dean"}, {"full_name": "Martin van Rensburg", "company_name": "Steers, Debonairs Pizza, Wimpy, Fishaways", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/martin-van-rensburg-99b6092a", "snippet": "Operating multiple Steers, Fishaways, Debonairs & Wimpy franchise outlets. Owner. Embryo Screen Printing. Apr 1996 - Present 30 years 7 months. Workwear ...", "id": "lead_31", "first_name": "Martin"}, {"full_name": "Delia Coetzer", "company_name": "Steers, Famous Brands", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/delia-coetzer-01a10b150", "snippet": "... and assistance to start your new life and financial freedom. Show less. Franchise Owner. Steers Franchise/Famous Brands. Aug 2012 - Aug 2012 1 month ...", "id": "lead_32", "first_name": "Delia"}, {"full_name": "Jaco Venter", "company_name": "KFC", "job_title": "Franchise Owner", "location": "Stellenbosch", "linkedin_url": "https://www.linkedin.com/in/jaco-venter-4044b89a", "snippet": "Development Manager - KFC Franchise group. Ahead Trading Pty Ltd. Mar 2007 - Mar ... Owner. Vlambojant. Jan 1997 - Dec 2006 10 years. Stellenbosch. Fast Food ...", "id": "lead_33", "first_name": "Jaco"}, {"full_name": "Carlos Afonso", "company_name": "Wimpy", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/carlos-afonso-28393537", "snippet": "Owner at Cosmopolitan Agencies CC · Qualified trainer for electro ... We are running a Engen Service Station, with a quickshop and a wimpy franchise.", "id": "lead_34", "first_name": "Carlos"}, {"full_name": "Martin Rickleton", "company_name": "KFC", "job_title": "Franchise Owner", "location": "Durban, KwaZulu-Natal", "linkedin_url": "https://www.linkedin.com/in/martin-rickleton-63887719a", "snippet": "Franchise Owner. KFC. Jan 1996 - Dec 2001 6 years. Durban, KwaZulu-Natal, South Africa. As owner of a KFC franchise, I applied formal budgeting and business ...", "id": "lead_35", "first_name": "Martin"}, {"full_name": "Anees Dawood CASA", "company_name": "Kauai", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/anees-dawood-ca-sa-a8854a57", "snippet": "Franchisee Kauai · Experienced Finance Manager with 7+ years post articles experience with a demonstrated history of working in the Financial Services, ...", "id": "lead_36", "first_name": "Anees"}, {"full_name": "Waheed Narker", "company_name": "Roman's Pizza", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/waheed-narker-8a5937253", "snippet": "Franchise Owner at Romans Pizza · Experience: Whisper pty ltd · Location: 8001. View Waheed Narker's profile on LinkedIn, a professional community of 1 ...", "id": "lead_37", "first_name": "Waheed"}, {"full_name": "Preantha Govender", "company_name": "Ocean Basket", "job_title": "Franchisee", "location": "Johannesburg", "linkedin_url": "https://www.linkedin.com/in/preantha-govender-33644a93", "snippet": "Franchisee at Ocean Basket Killarney · Experience: Ocean Basket Holdings · Education: Isipingo Secondary · Location: City of Johannesburg · 357 connections ...", "id": "lead_38", "first_name": "Preantha"}, {"full_name": "Christine Venter", "company_name": "Roman's Pizza", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/christine-venter-1475a199", "snippet": "Franchisee Romans's Pizza · Experience: Roman's Pizza · Education: Oxbridge ... Franchise Owner. Roman's Pizza. Sep 2022 - Present 4 years 1 month. Piet ...Read more", "id": "lead_39", "first_name": "Christine"}, {"full_name": "Colin Brett", "company_name": "Ocean Basket", "job_title": "Franchisee", "location": "Free State", "linkedin_url": "https://www.linkedin.com/in/colin-brett-a6265a40", "snippet": "Franchisee at Ocean Basket · Experience: Ocean Basket · Education: Christian Brothers College Welkom · Location: Free State · 36 connections on LinkedIn.", "id": "lead_40", "first_name": "Colin"}, {"full_name": "Bernie Aunty", "company_name": "Chicken Licken", "job_title": "Franchise Owner", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/bernie-aunty-a7b1a5ba", "snippet": "Bernie Aunty. Franchise Owner at Chicken Licken. Chicken Licken. City of Johannesburg, Gauteng, South Africa. 3 followers 1 connection.", "id": "lead_41", "first_name": "Bernie"}, {"full_name": "Muhammad Loonat", "company_name": "Chicken Licken", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/muhammad-loonat-784648141", "snippet": "Muhammad Loonat. Franchisee at Chicken Licken. Chicken Licken. City of Johannesburg, Gauteng, South Africa. 99 followers 96 connections.", "id": "lead_42", "first_name": "Muhammad"}, {"full_name": "Haroon Bhamjee", "company_name": "Pedros", "job_title": "Franchisee", "location": "Johannesburg", "linkedin_url": "https://www.linkedin.com/in/haroon-bhamjee-b431657", "snippet": "Pedros Flamed Grill Chicken Franchisee · Experience: Pedros · Location: City of Johannesburg · 500+ connections on LinkedIn. View Haroon Bhamjee's profile ...", "id": "lead_43", "first_name": "Haroon"}, {"full_name": "Shuaib Mahomed", "company_name": "Chicken Licken", "job_title": "Franchisee", "location": "Johannesburg, Pretoria, Gauteng", "linkedin_url": "https://www.linkedin.com/in/shuaib-mahomed-34690453", "snippet": "Shuaib Mahomed. Franchisee at Chicken Licken. Chicken Licken University of Pretoria. City of Johannesburg, Gauteng, South ...", "id": "lead_44", "first_name": "Shuaib"}, {"full_name": "Tinus Schrage", "company_name": "KFC", "job_title": "Franchisee", "location": "North West, Northern Cape", "linkedin_url": "https://www.linkedin.com/in/tinus-schrage-3ba51aa8", "snippet": "TradeON - KFC Franchisee ... Responsible for the management of operations and human capital of multiple restaurants within the Northern Cape and North West ...", "id": "lead_45", "first_name": "Tinus"}, {"full_name": "Darrel Smith", "company_name": "KFC", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/darrel-smith-02489192", "snippet": "Darrel Smith. Franchisee Kfc. Darjon Group. South Africa. 2 followers 2 connections. See your mutual connections. View mutual connections with Darrel.", "id": "lead_46", "first_name": "Darrel"}, {"full_name": "Stephen Blaikie", "company_name": "KFC", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/stephen-blaikie-a301b874", "snippet": "Stephen Blaikie. IT Manager - Roos Foods (KFC Franchisee). City of Johannesburg, Gauteng, South Africa. 513 followers ...", "id": "lead_47", "first_name": "Stephen"}, {"full_name": "Jacobus Coertze", "company_name": "KFC", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/jacobus-coertze-60527a54", "snippet": "TNT TakeAway Enterprises - A registered KFC Franchisee. May 2016 - Mar 2020 3 years 11 months. City of Johannesburg, Gauteng, South Africa. Responsible for ...", "id": "lead_48", "first_name": "Jacobus"}, {"full_name": "Hassan Mowzer", "company_name": "KFC", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/hassan-mowzer-31115336", "snippet": "Responsible for the strategic development and infrastructure management of a large KFC franchise portfolio across As Development Executive at FPG Foods, I ...", "id": "lead_49", "first_name": "Hassan"}, {"full_name": "Heidi Huizinga", "company_name": "Wimpy", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/heidi-huizinga-5b041339", "snippet": "Experience. Owner ... Marketing MGT-DBN- JHB Intercity route to target clientele. Managed Intercity Call-Centre 2003 - 2007. Co-Owned a Wimpy Franchise (Wimpy ...", "id": "lead_50", "first_name": "Heidi"}, {"full_name": "Bruce Muil", "company_name": "Steers, Debonairs Pizza", "job_title": "Franchise Owner", "location": "Durban", "linkedin_url": "https://www.linkedin.com/in/brucemuil", "snippet": "Owner. Cielo fast food services. Apr 2005 - Apr 2009 4 years 1 month. Durban ... Debonairs Franchise of the year - 2001. Steers Holdings. Oct 2001. We were ...", "id": "lead_51", "first_name": "Bruce"}, {"full_name": "Sylvia Manthata", "company_name": "Steers, Debonairs Pizza", "job_title": "Managing Director & Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/sylvia-manthata-a8968a23", "snippet": "She was owner/franchisee of a Debonairs Pizza and Steers Franchise combo store based in Braamfontein from 2008 to 2010. She is currently the managing director ( ...", "id": "lead_52", "first_name": "Sylvia"}, {"full_name": "Hilda Sekgethela", "company_name": "KFC", "job_title": "Franchise Owner", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/hilda-sekgethela-619b717b", "snippet": "Jaybo Fast Foods T/A KFC Franchise. Apr 2008 - Apr 2012 4 years 1 month. City of Johannesburg, Gauteng, South Africa.", "id": "lead_53", "first_name": "Hilda"}, {"full_name": "Vanessa Wolstenholme", "company_name": "KFC", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/vanessa-wolstenholme-505693b8", "snippet": "Accomplished professional with extensive experience in large corporates as well as small to medium owner managed businesses. ... Rohloff Group (KFC Franchise).", "id": "lead_54", "first_name": "Vanessa"}, {"full_name": "Riëtte Röntgen", "company_name": "Wimpy", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/rietterontgen", "snippet": "Adheres to Wimpy franchise philosophy of quality and value. Manages store to ... Reporting directly to owner of business. Programs: Pastel, Excel, Word ...", "id": "lead_55", "first_name": "Riëtte"}, {"full_name": "I'm Grant Fortuin", "company_name": "KFC", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/grantecocoin", "snippet": "... KFC franchise where I was supervisor.I then left that after a few years and ... Owner. Ecocoin. 2019 - Present 7 years. South Africa. We educate and train ...", "id": "lead_56", "first_name": "I'm"}, {"full_name": "Yolande Pieterse", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Partner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/yolande-pieterse-955ba824a", "snippet": "Col'cacchio Go Hillcrest - Franchise Partner · I am a dedicated ... food to serve our vibrant local community.&nbsp; My journey has been defined ...", "id": "lead_57", "first_name": "Yolande"}, {"full_name": "Kathryn Gunning", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Partner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/kathryn-gunning-0b57b4217", "snippet": "Sorbet Franchise Partner | Business Growth Strategist | Driving ... Waitressed at Morgan Bay Hotel's Deck Restaurant which is a very busy restaurant.Read more", "id": "lead_58", "first_name": "Kathryn"}, {"full_name": "Riaan Earle", "company_name": "Food Lover's Market", "job_title": "Franchise Director", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/riaan-earle-98942177", "snippet": "2 years 4 months. South Africa. Store Manager. Food Lovers Market. Aug 2016 - Oct 2017 1 year 3 months. South Africa. Franchise Director. PnP. Oct 2013 - Sep ...Read more", "id": "lead_59", "first_name": "Riaan"}, {"full_name": "Adriaan Marillier", "company_name": "Wimpy, Fishaways, Famous Brands", "job_title": "Franchisee", "location": "Durban, KwaZulu-Natal", "linkedin_url": "https://www.linkedin.com/in/adriaan-marillier-b571a210b", "snippet": "Adriaan Marillier. Franchisee at Famous Brands(Wimpy & FishAways). Famous Brands Marist Brothers. Durban, KwaZulu-Natal, South Africa.Read more", "id": "lead_60", "first_name": "Adriaan"}, {"full_name": "Claudine Dhawraj", "company_name": "Wimpy", "job_title": "Franchisee", "location": "Durban, KwaZulu-Natal", "linkedin_url": "https://www.linkedin.com/in/claudine-dhawraj-b5515b214", "snippet": "Claudine Dhawraj. Franchisee at WIMPY RESTAURANTS GROUP LIMITED. WIMPY RESTAURANTS GROUP LIMITED. Durban, KwaZulu-Natal, South Africa.Read more", "id": "lead_61", "first_name": "Claudine"}, {"full_name": "Kabira Dewan", "company_name": "Famous Brands", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/kabira-dewan-08099b42", "snippet": "Experience ; Franchise Owner. Famous Brands. Nov 2019 - Present 6 years 11 months ; Franchise Owner. Franchisee Mochachos New Redruth. May 2018 - Nov 2019 1 year ...Read more", "id": "lead_62", "first_name": "Kabira"}, {"full_name": "Chane Saunders", "company_name": "Wimpy, Famous Brands", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/chane-saunders-8a8b86110", "snippet": "Franchisee at Famous Brands · Experience: Famous Brands · Education: North ... Me and my husband currently own Wimpy Oribi Plaza in Port Shepstone. We ...Read more", "id": "lead_63", "first_name": "Chane"}, {"full_name": "Arnold Mokgabodi", "company_name": "Debonairs Pizza", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/arnold-mokgabodi-819a25161", "snippet": "Arnold Mokgabodi. Franchisee at Debonairs. Debonairs. City of Johannesburg, Gauteng, South Africa.Read more", "id": "lead_64", "first_name": "Arnold"}, {"full_name": "Fred Mc Kenzie", "company_name": "Wimpy", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/fred-mc-kenzie-1214052b", "snippet": "Experience. Wimpy. 32 years 9 months. Franchise Owner. Wimpy. Feb 1994 - Present 32 years 9 months. Amanzintoti. Franchisee. Wimpy Galleria & Arbour Crossing.Read more", "id": "lead_65", "first_name": "Fred"}, {"full_name": "Muhammed Arman Patel", "company_name": "Wimpy", "job_title": "Franchise Owner", "location": "Johannesburg, Cape Town", "linkedin_url": "https://www.linkedin.com/in/muhammed-arman-patel-77b08b130", "snippet": "Franchise Owner at Wimpy · Experience: Wimpy · Education: University of Cape Town · Location: City of Johannesburg · 2 connections on LinkedIn.", "id": "lead_66", "first_name": "Muhammed"}, {"full_name": "Deidre Markson", "company_name": "Wimpy, Fishaways", "job_title": "Franchisee", "location": "Limpopo, Polokwane", "linkedin_url": "https://www.linkedin.com/in/deidre-markson-50b912111", "snippet": "Deidre Markson. Franchisee at Wimpy Restaurant. Fishaways. Polokwane, Limpopo, South Africa. 56 followers 54 connections. See your mutual connections. View ...Read more", "id": "lead_67", "first_name": "Deidre"}, {"full_name": "Angela De Gouveia", "company_name": "Wimpy, Mugg & Bean, Famous Brands", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/angela-de-gouveia-530881a8", "snippet": "Experience ; Mugg & Bean. May 2019 - Present 7 years 6 months. South Africa ; Wimpy Restaurant. Aug 2011 - Present 15 years 3 months. Mooinooi ; Famous Brands.Read more", "id": "lead_68", "first_name": "Angela"}, {"full_name": "Christine de Muelenaere-Britz", "company_name": "Milky Lane", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/christine-de-muelenaere-britz-50255047", "snippet": "... restaurant, and now also the Milky Lane Mall @ Reds, with Christiaan Britz ... Franchisee and business owner at Milky Lane Mall@Reds. Milky Lane. Jul ...Read more", "id": "lead_69", "first_name": "Christine"}, {"full_name": "Robert van Wyk", "company_name": "Fast Food / F&B Franchise", "job_title": "Multi-unit Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/robert-van-wyk-6433061a3", "snippet": "My journey in the food and beverage industry began at the age of 14 when I started working in our family restaurant. Over the years, I have developed a deep ...", "id": "lead_70", "first_name": "Robert"}, {"full_name": "Mickey Mhlanga", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/mickey-mhlanga-69a42416b", "snippet": "Franchisee at Fast Food Patriot. Fast Food Patriot. City of Johannesburg, Gauteng, South Africa. 10 followers 10 connections. See your mutual connections. View ...", "id": "lead_71", "first_name": "Mickey"}, {"full_name": "Tegan Clucas", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Owner", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/tegan-clucas-874aaa23", "snippet": "Tegan Clucas. Franchise Owner at Restaurant. Restuarant Damelin. City of Johannesburg, Gauteng, South Africa. 275 followers 272 connections. See your mutual ...Read more", "id": "lead_72", "first_name": "Tegan"}, {"full_name": "Rob Howse", "company_name": "Fast Food / F&B Franchise", "job_title": "Multi-unit Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/rob-howse-688b2736", "snippet": "Passionate Entrepreneur. Managing Director of the RGB Capital Group. Multiple store franchisee. · Passionate restaurant owner, relentless at achieving ...", "id": "lead_73", "first_name": "Rob"}, {"full_name": "Asanda Maqabuka", "company_name": "Nkukhu Box", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/asanda-maqabuka-a230b4226", "snippet": "... Franchisee at Nkukhu Box proved invaluable, equipping me with the grit ... Accredited member of the Restaurant Association of South Africa. Restaurant ...Read more", "id": "lead_74", "first_name": "Asanda"}, {"full_name": "Jaco Uys", "company_name": "Roman's Pizza", "job_title": "Franchisee", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/jaco-uys-b53a5210", "snippet": "Jaco Uys. Franchisee at Romans Pizza. Romans Pizza Tshwane University of Technology. City of Johannesburg, Gauteng, South Africa. 296 followers 294 connections.Read more", "id": "lead_75", "first_name": "Jaco"}, {"full_name": "Terri Coetser", "company_name": "Ocean Basket", "job_title": "Franchise Director", "location": "Ballito", "linkedin_url": "https://www.linkedin.com/in/terri-coetser-b92075337", "snippet": "Experience ; Franchise Owner. Ocean basket ballito. 2024 - Present 2 years ; Director of Operations. Ocean basket bedfordview. 2023 - Present 3 years ; Franchise ...Read more", "id": "lead_76", "first_name": "Terri"}, {"full_name": "Graham Gillespie", "company_name": "Roman's Pizza", "job_title": "Franchise Director", "location": "Johannesburg, Gauteng", "linkedin_url": "https://www.linkedin.com/in/graham-gillespie-4271215a", "snippet": "Graham Gillespie. Director/Franchisee. Romans Pizza. City of Johannesburg, Gauteng, South Africa.Read more", "id": "lead_77", "first_name": "Graham"}, {"full_name": "Grant Brimson", "company_name": "Kauai", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/grant-brimson-90744a24", "snippet": "Operations Franchise Consultant FSC · Experience: Kauai South Africa · Education: UNISA · Location: South Africa · 366 connections on LinkedIn ... franchisee ...Read more", "id": "lead_78", "first_name": "Grant"}, {"full_name": "Nicolene Elhadad", "company_name": "Xpresso Cafe", "job_title": "Managing Director & Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/nicoleneelhadad", "snippet": "Co-Founder of Xpresso Cafe Franchise , MD of ProvisionISR SA , Serial Entrepreneur, Business and Franchise Coach · BUILD A MONEY MACHINE, ...", "id": "lead_79", "first_name": "Nicolene"}, {"full_name": "Arthur Sweet", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/arthur-sweet-17b689172", "snippet": "Arthur Sweet. Franchisee of Fast-Food Restaurant, as well as many years experience in developing Flexible Packaging for SA Industry.Read more", "id": "lead_80", "first_name": "Arthur"}, {"full_name": "Kabelo Makola", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchisee", "location": "Pretoria, Gauteng", "linkedin_url": "https://www.linkedin.com/in/kabelo-makola-35b6a72b8", "snippet": "Kabelo Makola. Franchisee at Four Montana Restaurant Companies. Four Montana Restaurant Companies. Pretoria, Gauteng, South Africa.Read more", "id": "lead_81", "first_name": "Kabelo"}, {"full_name": "Ludwig Kruger", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchisee", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/ludwig-kruger-05b037259", "snippet": "Restaurant franchisee · Highly qualified Retail and Franchise specialist with 20 years experience in the field. Adept at providing exemplary customer ...", "id": "lead_82", "first_name": "Ludwig"}, {"full_name": "Nkule Ntimbane", "company_name": "Maxis Restaurant", "job_title": "Franchisee", "location": "Johannesburg", "linkedin_url": "https://www.linkedin.com/in/nkule-ntimbane-9a589591", "snippet": "Franchisee at Maxis Restaurant · Experience: Maxis Restaurant · Education: University of Zululand · Location: City of Johannesburg · 18 connections on ...", "id": "lead_83", "first_name": "Nkule"}, {"full_name": "John Vito", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchisee", "location": "Durban, KwaZulu-Natal", "linkedin_url": "https://www.linkedin.com/in/john-vito-0bb829127", "snippet": "John Vito. Franchisee at Restaurant. Restaurant. Durban, KwaZulu-Natal, South Africa. 1 follower 1 connection. See your mutual connections ...", "id": "lead_84", "first_name": "John"}, {"full_name": "Sean koekemoer", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/sean-koekemoer", "snippet": "Restaurant Franchise Owner & General Manager. Toni's Pizza. Aug 2015 - Apr 2016 9 months. South Africa. Invested in and became a franchise owner. The main ...", "id": "lead_85", "first_name": "Sean"}, {"full_name": "Juan Engelbrecht", "company_name": "Fast Food / F&B Franchise", "job_title": "Franchise Founder / Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/juan-engelbrecht-%f0%9f%87%bf%f0%9f%87%a6-165b4721", "snippet": "CEO for popular Fast Food Brands - Business & Franchising | M&A, Franchise ... franchisee ✓ An investor looking for high-potential brands ✓ A founder ...", "id": "lead_86", "first_name": "Juan"}, {"full_name": "Louis Uys", "company_name": "Roman's Pizza", "job_title": "Multi-unit Franchisee", "location": "Centurion", "linkedin_url": "https://www.linkedin.com/in/louis-uys-594713170", "snippet": "Multiple Store Roman's Pizza franchisee. · Experience: Roman's Pizza · Location: Centurion · 118 connections on LinkedIn. View Louis Uys' profile on ...", "id": "lead_87", "first_name": "Louis"}, {"full_name": "Malcolm Stone", "company_name": "Vida e Caffè", "job_title": "Franchise Owner", "location": "South Africa", "linkedin_url": "https://www.linkedin.com/in/malcolm-stone-a215883b", "snippet": "Franchisee Vida e Caffe · Experienced Owner with a demonstrated history of working in the restaurant industry. Skilled in Catering, Food &amp; Beverage ...", "id": "lead_88", "first_name": "Malcolm"}];
+
+    // State
+    let currentLeads = [...LEADS_DATA];
+    let selectedLead = null;
+    let currentTab = 'postConnect';
+    let leadStates = JSON.parse(localStorage.getItem('franchise_lead_states') || '{}');
+
+    // Brand Group Mapping
+    const BRAND_GROUPS = {
+      spur: ['spur', 'rocomamas', 'panarottis', 'hussar'],
+      famous: ['famous brands', 'steers', 'debonairs', 'wimpy', 'mugg', 'fishaways', 'milky lane'],
+      mcdonalds: ['mcdonald'],
+      romans: ['roman'],
+      chicken: ['kfc', 'chicken licken', 'nando', 'hungry lion', 'pedro'],
+      cafe: ['kauai', 'ocean basket', 'vida', 'simply asia', 'xpresso']
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLeads();
+      updateStats();
+      setupEventListeners();
+    });
+
+    function setupEventListeners() {
+      document.getElementById('searchInput').addEventListener('input', applyFilters);
+      document.getElementById('brandFilter').addEventListener('change', applyFilters);
+      document.getElementById('regionFilter').addEventListener('change', applyFilters);
+      document.getElementById('statusFilter').addEventListener('change', applyFilters);
+      document.getElementById('btnExport').addEventListener('click', exportToCSV);
+      document.getElementById('btnResetProgress').addEventListener('click', resetAllProgress);
+
+      // Close modal on escape or backdrop click
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+      document.getElementById('modalBackdrop').addEventListener('click', (e) => {
+        if (e.target.id === 'modalBackdrop') closeModal();
+      });
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const brand = document.getElementById('brandFilter').value;
+      const region = document.getElementById('regionFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      currentLeads = LEADS_DATA.filter(lead => {
+        const fullText = `${lead.full_name} ${lead.company_name} ${lead.job_title} ${lead.location} ${lead.snippet}`.toLowerCase();
+        
+        // Search query
+        if (query && !fullText.includes(query)) return false;
+
+        // Brand group
+        if (brand !== 'all') {
+          const targetTerms = BRAND_GROUPS[brand] || [];
+          const matchesBrand = targetTerms.some(term => lead.company_name.toLowerCase().includes(term) || lead.snippet.toLowerCase().includes(term));
+          if (!matchesBrand) return false;
+        }
+
+        // Region
+        if (region !== 'all') {
+          if (!lead.location.toLowerCase().includes(region.toLowerCase())) return false;
+        }
+
+        // Status
+        const st = (leadStates[lead.id] && leadStates[lead.id].status) || 'pending';
+        const isStarred = leadStates[lead.id] && leadStates[lead.id].starred;
+
+        if (status === 'starred' && !isStarred) return false;
+        if (status === 'pending' && st !== 'pending') return false;
+        if (status === 'copied' && st !== 'copied') return false;
+        if (status === 'sent' && st !== 'sent' && st !== 'connected') return false;
+
+        return true;
+      });
+
+      renderLeads();
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('brandFilter').value = 'all';
+      document.getElementById('regionFilter').value = 'all';
+      document.getElementById('statusFilter').value = 'all';
+      applyFilters();
+    }
+
+    function renderLeads() {
+      const grid = document.getElementById('leadsGrid');
+      const emptyState = document.getElementById('emptyState');
+      const countLabel = document.getElementById('resultCountLabel');
+
+      countLabel.textContent = `Showing ${currentLeads.length} of ${LEADS_DATA.length} franchise owners`;
+
+      if (currentLeads.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = currentLeads.map(lead => {
+        const state = leadStates[lead.id] || { status: 'pending', starred: false };
+        const initials = lead.full_name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        
+        // Badge color mapping
+        let badgeColor = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
+        const cLower = lead.company_name.toLowerCase();
+        if (cLower.includes('spur') || cLower.includes('rocomamas')) badgeColor = 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+        else if (cLower.includes('famous') || cLower.includes('steers') || cLower.includes('debonairs')) badgeColor = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+        else if (cLower.includes('mcdonald')) badgeColor = 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
+        else if (cLower.includes('kfc')) badgeColor = 'bg-red-500/10 text-red-400 border-red-500/20';
+        else if (cLower.includes('roman')) badgeColor = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+
+        // Status badge
+        let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-400">Uncontacted</span>';
+        if (state.status === 'copied') statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300">Message Copied</span>';
+        if (state.status === 'sent') statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300">Contacted</span>';
+        if (state.status === 'connected') statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300">Connected</span>';
+
+        return `
+          <div class="glass-card rounded-2xl p-5 flex flex-col justify-between cursor-pointer group" onclick="openLeadModal('${lead.id}')">
+            <div>
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-800 to-indigo-900 border border-slate-700/80 flex items-center justify-center font-bold text-xs text-white shadow-sm group-hover:border-indigo-500/50 transition">
+                    ${initials}
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-white text-base group-hover:text-indigo-300 transition flex items-center gap-1.5">
+                      ${lead.full_name}
+                      ${state.starred ? '<span class="text-amber-400 text-xs">★</span>' : ''}
+                    </h3>
+                    <p class="text-xs text-slate-400 font-medium">${lead.job_title}</p>
+                  </div>
+                </div>
+                <div>${statusBadge}</div>
+              </div>
+
+              <div class="mt-4 flex flex-wrap items-center gap-1.5">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold border ${badgeColor}">
+                  ${lead.company_name}
+                </span>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs text-slate-400 bg-slate-900/60 border border-slate-800">
+                  <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  ${lead.location}
+                </span>
+              </div>
+
+              <p class="text-xs text-slate-400 mt-3 line-clamp-2 leading-relaxed">
+                ${lead.snippet}
+              </p>
+            </div>
+
+            <div class="mt-5 pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
+              <span class="text-indigo-400 font-medium group-hover:underline flex items-center gap-1">
+                Draft Outreach
+                <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </span>
+              <a href="${lead.linkedin_url}" target="_blank" onclick="event.stopPropagation()" class="text-slate-400 hover:text-white flex items-center gap-1" title="Open LinkedIn Profile">
+                <svg class="w-4 h-4 fill-current text-[#70B5F9]" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function generatePersonalizedMessages(lead) {
+      const firstName = lead.first_name || 'there';
+      const brand = lead.company_name || 'your franchise network';
+      const role = lead.job_title || 'Franchise Owner';
+      const location = lead.location || 'South Africa';
+
+      // 1. Full Post-Connection LinkedIn Message
+      const postConnect = `Hi ${firstName},
+
+Thanks so much for connecting with me here on LinkedIn!
+
+I've been following the impressive footprint of ${brand} across ${location}, and I'm currently conducting field research for my BCom Honours in Strategic Business Management study at the University of Pretoria.
+
+My research is specifically focused on AI adoption, automation, and operational technology trends across franchise operations in South Africa—exploring where franchise owners see genuine operational value versus current bottlenecks (like inventory forecasting, labor scheduling, customer ordering, and system integrations).
+
+Given your hands-on experience running ${brand} as a ${role}, your perspective would be invaluable. Would you be open to a brief 10–15 minute conversation (or completing a short confidential questionnaire) to share your thoughts?
+
+All findings are strictly academic, confidential, and anonymous. I would also be delighted to share the final executive summary and benchmark insights with you once completed so you can see where your operations sit relative to the rest of the industry.
+
+Thank you for your time, ${firstName}, and I look forward to hearing your thoughts!
+
+Warm regards,
+Mandisi Kgoadi
+University of Pretoria | BCom (Hons) Strategic Business Management`;
+
+      // 2. Pre-Connection Note (<300 Chars)
+      const preConnect = `Hi ${firstName}, thank you for connecting! I'm researching AI and automation adoption within franchise operations for my BCom Honours in Strategic Business Management at the University of Pretoria. Given your leadership at ${brand}, I'd love to connect and share benchmark findings!`;
+
+      return { postConnect, preConnect };
+    }
+
+    function openLeadModal(leadId) {
+      selectedLead = LEADS_DATA.find(l => l.id === leadId);
+      if (!selectedLead) return;
+
+      const state = leadStates[leadId] || { status: 'pending', starred: false, note: '' };
+      const initials = selectedLead.full_name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+
+      document.getElementById('modalAvatar').textContent = initials;
+      document.getElementById('modalName').textContent = selectedLead.full_name;
+      document.getElementById('modalRole').textContent = selectedLead.job_title;
+      document.getElementById('modalBrandBadge').textContent = selectedLead.company_name;
+      document.getElementById('modalLocation').innerHTML = `
+        <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        ${selectedLead.location}
+      `;
+      document.getElementById('modalLinkedinLink').href = selectedLead.linkedin_url;
+      document.getElementById('modalSnippet').textContent = `"${selectedLead.snippet}"`;
+      document.getElementById('msgTargetName').textContent = selectedLead.first_name;
+      document.getElementById('leadNoteInput').value = state.note || '';
+
+      const { postConnect, preConnect } = generatePersonalizedMessages(selectedLead);
+      document.getElementById('postConnectText').value = postConnect;
+      document.getElementById('preConnectText').value = preConnect;
+      document.getElementById('preConnectCharCount').textContent = preConnect.length;
+
+      updateStatusButtons(state.status || 'pending');
+      updateStarIcon(state.starred);
+
+      // Update lead index tracker
+      const currentIndex = currentLeads.findIndex(l => l.id === leadId);
+      document.getElementById('modalLeadIdLabel').textContent = `Lead ${currentIndex + 1} of ${currentLeads.length} (${selectedLead.id})`;
+
+      // Show modal
+      const backdrop = document.getElementById('modalBackdrop');
+      const box = document.getElementById('modalBox');
+      backdrop.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        box.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeModal() {
+      const backdrop = document.getElementById('modalBackdrop');
+      const box = document.getElementById('modalBox');
+      backdrop.classList.add('opacity-0');
+      box.classList.add('scale-95');
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+        selectedLead = null;
+      }, 200);
+    }
+
+    function navigateLead(direction) {
+      if (!selectedLead) return;
+      const currentIndex = currentLeads.findIndex(l => l.id === selectedLead.id);
+      if (currentIndex === -1) return;
+      const nextIndex = (currentIndex + direction + currentLeads.length) % currentLeads.length;
+      openLeadModal(currentLeads[nextIndex].id);
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      const btn1 = document.getElementById('tabPostConnectBtn');
+      const btn2 = document.getElementById('tabPreConnectBtn');
+      const btn3 = document.getElementById('tabStudyNotesBtn');
+      const tab1 = document.getElementById('tabPostConnect');
+      const tab2 = document.getElementById('tabPreConnect');
+      const tab3 = document.getElementById('tabStudyNotes');
+
+      [btn1, btn2, btn3].forEach(b => {
+        b.classList.remove('text-indigo-400', 'border-b-2', 'border-indigo-500');
+        b.classList.add('text-slate-400');
+      });
+      [tab1, tab2, tab3].forEach(t => t.classList.add('hidden'));
+
+      if (tab === 'postConnect') {
+        btn1.classList.add('text-indigo-400', 'border-b-2', 'border-indigo-500');
+        tab1.classList.remove('hidden');
+      } else if (tab === 'preConnect') {
+        btn2.classList.add('text-indigo-400', 'border-b-2', 'border-indigo-500');
+        tab2.classList.remove('hidden');
+      } else if (tab === 'studyNotes') {
+        btn3.classList.add('text-indigo-400', 'border-b-2', 'border-indigo-500');
+        tab3.classList.remove('hidden');
+      }
+    }
+
+    function copyCurrentMessage(type) {
+      const text = type === 'postConnect' ? document.getElementById('postConnectText').value : document.getElementById('preConnectText').value;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(type === 'postConnect' ? 'Full LinkedIn DM copied to clipboard!' : 'Pre-connect note copied to clipboard!');
+        if (selectedLead) {
+          setLeadStatus('copied');
+        }
+      });
+    }
+
+    function setLeadStatus(status) {
+      if (!selectedLead) return;
+      if (!leadStates[selectedLead.id]) leadStates[selectedLead.id] = {};
+      leadStates[selectedLead.id].status = status;
+      saveStates();
+      updateStatusButtons(status);
+      updateStats();
+      renderLeads();
+    }
+
+    function updateStatusButtons(activeStatus) {
+      ['pending', 'copied', 'sent', 'connected'].forEach(s => {
+        const btn = document.getElementById(`statusBtn_${s}`);
+        if (!btn) return;
+        if (s === activeStatus) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white border border-indigo-500 shadow-sm';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700';
+        }
+      });
+    }
+
+    function toggleLeadStarCurrent() {
+      if (!selectedLead) return;
+      if (!leadStates[selectedLead.id]) leadStates[selectedLead.id] = {};
+      leadStates[selectedLead.id].starred = !leadStates[selectedLead.id].starred;
+      saveStates();
+      updateStarIcon(leadStates[selectedLead.id].starred);
+      renderLeads();
+    }
+
+    function updateStarIcon(starred) {
+      const btn = document.getElementById('modalStarBtn');
+      if (starred) {
+        btn.classList.add('text-amber-400');
+        btn.classList.remove('text-slate-500');
+      } else {
+        btn.classList.remove('text-amber-400');
+        btn.classList.add('text-slate-500');
+      }
+    }
+
+    function saveLeadNote() {
+      if (!selectedLead) return;
+      if (!leadStates[selectedLead.id]) leadStates[selectedLead.id] = {};
+      leadStates[selectedLead.id].note = document.getElementById('leadNoteInput').value;
+      saveStates();
+      showToast('Note saved');
+    }
+
+    function saveStates() {
+      localStorage.setItem('franchise_lead_states', JSON.stringify(leadStates));
+    }
+
+    function updateStats() {
+      const total = LEADS_DATA.length;
+      let copied = 0;
+      let sent = 0;
+
+      Object.values(leadStates).forEach(st => {
+        if (st.status === 'copied') copied++;
+        if (st.status === 'sent' || st.status === 'connected') sent++;
+      });
+
+      const pending = total - (copied + sent);
+
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statCopied').textContent = copied;
+      document.getElementById('statCopiedPct').textContent = `${Math.round((copied/total)*100)}%`;
+      document.getElementById('statSent').textContent = sent;
+      document.getElementById('statSentPct').textContent = `${Math.round((sent/total)*100)}%`;
+      document.getElementById('statPending').textContent = pending;
+    }
+
+    function resetAllProgress() {
+      if (confirm('Reset all outreach status back to Uncontacted?')) {
+        leadStates = {};
+        saveStates();
+        updateStats();
+        renderLeads();
+        showToast('All progress reset');
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    function exportToCSV() {
+      const headers = ['Full Name', 'Company / Brand', 'Role', 'Location', 'LinkedIn URL', 'Outreach Status', 'Private Notes'];
+      const rows = LEADS_DATA.map(l => {
+        const st = leadStates[l.id] || { status: 'pending', note: '' };
+        return [
+          `"${l.full_name}"`,
+          `"${l.company_name}"`,
+          `"${l.job_title}"`,
+          `"${l.location}"`,
+          `"${l.linkedin_url}"`,
+          `"${st.status || 'pending'}"`,
+          `"${st.note || ''}"`
+        ].join(',');
+      });
+      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', `sa_franchise_ai_study_outreach_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Exporting CSV download...');
+    }
+  </script>
+</body>
+</html>

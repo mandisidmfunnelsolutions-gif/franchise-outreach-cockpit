@@ -1,0 +1,2 @@
+# Python Standard Library only (urllib, http.server, socketserver, json, csv, re)
+# No external pip dependencies strictly required.
