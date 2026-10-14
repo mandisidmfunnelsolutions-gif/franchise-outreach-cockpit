@@ -1,7 +1,0 @@
-{
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/leads.json", "destination": "/data/sa_food_beverage_franchise_owners_linkedin.json" },
-    { "source": "/leads.csv", "destination": "/data/sa_food_beverage_franchise_owners_linkedin.csv" }
-  ]
-}
