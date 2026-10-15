@@ -17,9 +17,19 @@ The **Franchise Outreach Cockpit** is a dedicated, interactive single-page dashb
   - **Custom Tailored Post-Connection LinkedIn DM** asking for participation in the University of Pretoria study and offering reciprocal benchmark insights.
   - **Pre-Connection Note** (<300 characters) ready to paste into LinkedIn's *"Add a note"* box.
   - **Academic FAQ & Objections Cheat-Sheet** (confidentiality, time commitment, study value).
+- **Live Empirical Survey Responses Portal**:
+  - Live sync with Supabase `survey_responses` table.
+  - Interactive cards & full Q&A modal inspection for every participant.
+  - Quantitative metrics and visual percentage progress bars for slider items.
+- **Academic Word (.docx) Export Engine**:
+  - Download individual or consolidated master dossiers with questions, qualitative responses, and attached percentages for all slider ratings.
 - **Client-Side Progress Tracking**: Persists outreach status (`Pending`, `Message Copied`, `Contacted`, `Connected`) and private lead notes to browser `localStorage`.
 - **Export to CSV**: Export your updated outreach list with private notes directly from the UI.
-- **Built-in Endpoints**: `/leads.json` and `/leads.csv` endpoints.
+- **Built-in Endpoints**:
+  - `/leads.json` & `/leads.csv` (88 Franchise Leads)
+  - `/api/survey-responses` (Live Survey Submissions)
+  - `/api/export-docx?id=all` (Consolidated Word Dossier)
+  - `/api/export-docx?id=<id>` (Individual Respondent Word Document)
 
 ---
 
@@ -35,6 +45,8 @@ Endpoints:
 - **Cockpit Dashboard:** `http://localhost:3002`
 - **Leads JSON API:** `http://localhost:3002/leads.json`
 - **Leads CSV Export:** `http://localhost:3002/leads.csv`
+- **Survey Responses API:** `http://localhost:3002/api/survey-responses`
+- **Master DOCX Export:** `http://localhost:3002/api/export-docx?id=all`
 
 ---
 
