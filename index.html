@@ -139,120 +139,249 @@
       </div>
     </header>
 
-    <!-- Filter & Search Toolbar -->
-    <div class="glass-panel rounded-2xl p-3.5 sm:p-5 border border-slate-800 space-y-3">
-      
-      <!-- Search Box with Clear Button -->
-      <div class="relative w-full">
-        <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Search by name, franchise, title, city..." 
-          class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-9 py-2.5 sm:py-2.5 text-base sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition min-h-[44px]"
-        />
-        <button id="searchClearBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center text-xs">
-          ✕
-        </button>
-      </div>
-
-      <!-- Quick Mobile Filter Chips (Thumb-Friendly Horizontal Scroll) -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 -mx-1 px-1 touch-pan-x" id="quickChipsBar">
-        <button onclick="setQuickChip('all')" class="quick-chip chip-active px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="all">
-          All (88)
-        </button>
-        <button onclick="setQuickChip('starred')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="starred">
-          ★ Starred
-        </button>
-        <button onclick="setQuickChip('spur')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="spur">
-          Spur Group
-        </button>
-        <button onclick="setQuickChip('famous')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="famous">
-          Famous Brands
-        </button>
-        <button onclick="setQuickChip('mcdonalds')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="mcdonalds">
-          McDonald's
-        </button>
-        <button onclick="setQuickChip('romans')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="romans">
-          Roman's Pizza
-        </button>
-        <button onclick="setQuickChip('chicken')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="chicken">
-          Chicken QSR
-        </button>
-        <button onclick="setQuickChip('gauteng')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="gauteng">
-          Gauteng
-        </button>
-        <button onclick="setQuickChip('western-cape')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="western-cape">
-          Western Cape
-        </button>
-        <button onclick="setQuickChip('copied')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="copied">
-          Copied
-        </button>
-        <button onclick="setQuickChip('sent')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="sent">
-          Sent
-        </button>
-        <button onclick="setQuickChip('pending')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="pending">
-          Pending
-        </button>
-      </div>
-
-      <!-- Granular Dropdown Selectors -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 border-t border-slate-800/60">
-        <!-- Brand Group Filter -->
-        <select id="brandFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
-          <option value="all">All Brands</option>
-          <option value="spur">Spur Group</option>
-          <option value="famous">Famous Brands</option>
-          <option value="mcdonalds">McDonald's</option>
-          <option value="romans">Roman's Pizza</option>
-          <option value="chicken">Chicken QSR (KFC...)</option>
-          <option value="cafe">Cafe / QSR (Kauai...)</option>
-        </select>
-
-        <!-- Region Filter -->
-        <select id="regionFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
-          <option value="all">All Regions</option>
-          <option value="Gauteng">Gauteng</option>
-          <option value="Western Cape">Western Cape</option>
-          <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-          <option value="Limpopo">Limpopo</option>
-          <option value="Mpumalanga">Mpumalanga</option>
-        </select>
-
-        <!-- Status Filter -->
-        <select id="statusFilter" class="col-span-2 sm:col-span-1 bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
-          <option value="all">All Statuses</option>
-          <option value="pending">Pending</option>
-          <option value="copied">Message Copied</option>
-          <option value="sent">Contacted / Sent</option>
-          <option value="starred">Starred Leads</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Active Filters & Result Count -->
-    <div class="flex items-center justify-between text-xs text-slate-400 px-1">
-      <span id="resultCountLabel" class="font-medium">Showing 88 of 88 franchise owners</span>
-      <span class="text-[11px] sm:text-xs text-indigo-400">Tap card to draft message</span>
-    </div>
-
-    <!-- Leads Grid -->
-    <div id="leadsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
-      <!-- Injected via JavaScript -->
-    </div>
-
-    <!-- Empty State -->
-    <div id="emptyState" class="hidden glass-panel rounded-2xl p-8 sm:p-12 text-center border border-slate-800">
-      <div class="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-slate-400 mb-3 sm:mb-4">
-        <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </div>
-      <h3 class="text-base sm:text-lg font-bold text-white">No matching franchise owners</h3>
-      <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-sm mx-auto">Try clearing search terms or selecting another brand/region chip.</p>
-      <button onclick="resetFilters()" class="mt-4 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition min-h-[44px]">
-        Reset All Filters
+    <!-- Master View Switcher (Outreach Leads vs Live Survey Responses) -->
+    <div class="flex items-center gap-2 p-1.5 bg-slate-900/90 rounded-2xl border border-slate-800 shadow-xl max-w-xl">
+      <button id="viewSwitchLeads" onclick="switchMainView('leads')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-md min-h-[44px]">
+        <svg class="w-4 h-4 text-indigo-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        <span>Outreach Pipeline (88)</span>
+      </button>
+      <button id="viewSwitchResponses" onclick="switchMainView('responses')" class="flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white min-h-[44px]">
+        <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>Survey Responses</span>
+        <span id="badgeResponsesCount" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">0</span>
       </button>
     </div>
 
+    <!-- VIEW 1: OUTREACH LEADS SECTION -->
+    <div id="leadsSection" class="space-y-4 sm:space-y-6">
+
+      <!-- Filter & Search Toolbar -->
+      <div class="glass-panel rounded-2xl p-3.5 sm:p-5 border border-slate-800 space-y-3">
+        
+        <!-- Search Box with Clear Button -->
+        <div class="relative w-full">
+          <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search by name, franchise, title, city..." 
+            class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-9 py-2.5 sm:py-2.5 text-base sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition min-h-[44px]"
+          />
+          <button id="searchClearBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center text-xs">
+            ✕
+          </button>
+        </div>
+
+        <!-- Quick Mobile Filter Chips (Thumb-Friendly Horizontal Scroll) -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 -mx-1 px-1 touch-pan-x" id="quickChipsBar">
+          <button onclick="setQuickChip('all')" class="quick-chip chip-active px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="all">
+            All (88)
+          </button>
+          <button onclick="setQuickChip('starred')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="starred">
+            ★ Starred
+          </button>
+          <button onclick="setQuickChip('spur')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="spur">
+            Spur Group
+          </button>
+          <button onclick="setQuickChip('famous')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="famous">
+            Famous Brands
+          </button>
+          <button onclick="setQuickChip('mcdonalds')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="mcdonalds">
+            McDonald's
+          </button>
+          <button onclick="setQuickChip('romans')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="romans">
+            Roman's Pizza
+          </button>
+          <button onclick="setQuickChip('chicken')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="chicken">
+            Chicken QSR
+          </button>
+          <button onclick="setQuickChip('gauteng')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="gauteng">
+            Gauteng
+          </button>
+          <button onclick="setQuickChip('western-cape')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="western-cape">
+            Western Cape
+          </button>
+          <button onclick="setQuickChip('copied')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="copied">
+            Copied
+          </button>
+          <button onclick="setQuickChip('sent')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="sent">
+            Sent
+          </button>
+          <button onclick="setQuickChip('pending')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="pending">
+            Pending
+          </button>
+        </div>
+
+        <!-- Granular Dropdown Selectors -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 border-t border-slate-800/60">
+          <!-- Brand Group Filter -->
+          <select id="brandFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
+            <option value="all">All Brands</option>
+            <option value="spur">Spur Group</option>
+            <option value="famous">Famous Brands</option>
+            <option value="mcdonalds">McDonald's</option>
+            <option value="romans">Roman's Pizza</option>
+            <option value="chicken">Chicken QSR (KFC...)</option>
+            <option value="cafe">Cafe / QSR (Kauai...)</option>
+          </select>
+
+          <!-- Region Filter -->
+          <select id="regionFilter" class="bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
+            <option value="all">All Regions</option>
+            <option value="Gauteng">Gauteng</option>
+            <option value="Western Cape">Western Cape</option>
+            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+            <option value="Limpopo">Limpopo</option>
+            <option value="Mpumalanga">Mpumalanga</option>
+          </select>
+
+          <!-- Status Filter -->
+          <select id="statusFilter" class="col-span-2 sm:col-span-1 bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
+            <option value="all">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="copied">Message Copied</option>
+            <option value="sent">Contacted / Sent</option>
+            <option value="starred">Starred Leads</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Filters & Result Count -->
+      <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+        <span id="resultCountLabel" class="font-medium">Showing 88 of 88 franchise owners</span>
+        <span class="text-[11px] sm:text-xs text-indigo-400">Tap card to draft message</span>
+      </div>
+
+      <!-- Leads Grid -->
+      <div id="leadsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden glass-panel rounded-2xl p-8 sm:p-12 text-center border border-slate-800">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-slate-400 mb-3 sm:mb-4">
+          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white">No matching franchise owners</h3>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-sm mx-auto">Try clearing search terms or selecting another brand/region chip.</p>
+        <button onclick="resetFilters()" class="mt-4 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition min-h-[44px]">
+          Reset All Filters
+        </button>
+      </div>
+
+    </div>
+
+    <!-- VIEW 2: AI SURVEY RESPONSES SECTION (UP HONOURS STUDY) -->
+    <div id="responsesSection" class="hidden space-y-4 sm:space-y-6">
+      
+      <!-- Responses Top Control Bar -->
+      <div class="glass-panel rounded-2xl p-4 sm:p-6 border border-slate-800 space-y-4 shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Live Study Database • University of Pretoria</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              AI Web Survey Submissions
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
+              Confidential empirical responses from South African franchise owners. Inspect qualitative responses, view slider percentages, and export academic Word (.docx) dossiers.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
+            <a href="/api/export-docx?id=all" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 active:scale-95 text-white shadow-lg shadow-indigo-500/25 transition min-h-[44px]">
+              <svg class="w-4 h-4 text-blue-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Download All Responses (.DOCX)</span>
+            </a>
+            <button onclick="loadSurveyResponses(true)" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-200 border border-slate-700 transition min-h-[44px]">
+              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Refresh</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Responses Metrics Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 pt-4 border-t border-slate-800/80">
+          <div class="bg-slate-900/60 p-3 sm:p-3.5 rounded-xl border border-slate-800">
+            <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold truncate">Total Submissions</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <span class="text-xl sm:text-2xl font-bold text-white" id="statRespTotal">0</span>
+              <span class="text-[10px] text-emerald-400 font-medium">Recorded</span>
+            </div>
+          </div>
+          <div class="bg-slate-900/60 p-3 sm:p-3.5 rounded-xl border border-slate-800">
+            <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold truncate">Adoption Status</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <span class="text-xl sm:text-2xl font-bold text-indigo-400" id="statRespAdoption">100%</span>
+              <span class="text-[10px] text-slate-500">Using AI</span>
+            </div>
+          </div>
+          <div class="bg-slate-900/60 p-3 sm:p-3.5 rounded-xl border border-slate-800">
+            <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold truncate">Avg Employee Sentiment</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <span class="text-xl sm:text-2xl font-bold text-amber-400" id="statRespAvgSentiment">0%</span>
+              <span class="text-[10px] text-slate-500 font-medium" id="statRespAvgSentimentScore">0 / 5</span>
+            </div>
+          </div>
+          <div class="bg-slate-900/60 p-3 sm:p-3.5 rounded-xl border border-slate-800">
+            <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold truncate">Dominant Factors</p>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <span class="text-xs sm:text-sm font-bold text-slate-200 truncate" id="statRespTopFactor">Internet & Costs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Response Search & Filter Toolbar -->
+        <div class="flex flex-col sm:flex-row items-center gap-2.5 pt-3 border-t border-slate-800/60">
+          <div class="relative w-full sm:flex-1">
+            <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input 
+              type="text" 
+              id="searchRespInput" 
+              placeholder="Search responses by name, franchise, tools, role..." 
+              class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-base sm:text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px]"
+            />
+          </div>
+          <select id="sentimentFilter" class="w-full sm:w-56 bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px]">
+            <option value="all">All Sentiments</option>
+            <option value="high">Enthusiastic (≥ 80%)</option>
+            <option value="medium">Moderate / Neutral (60%)</option>
+            <option value="low">Hesitant / Resistant (≤ 40%)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Count Label -->
+      <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+        <span id="respCountLabel" class="font-medium">Showing 0 survey responses</span>
+        <span class="text-[11px] sm:text-xs text-indigo-400">Click any card to review full Q&A and export .docx</span>
+      </div>
+
+      <!-- Responses Cards Grid -->
+      <div id="responsesGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Empty State for Responses -->
+      <div id="responsesEmptyState" class="hidden glass-panel rounded-2xl p-8 sm:p-12 text-center border border-slate-800">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-slate-400 mb-3 sm:mb-4">
+          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-white">No survey responses match your filter</h3>
+        <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-sm mx-auto">Try clearing search terms or reloading once participants submit their forms.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Detail Survey Response Modal (Full Screen Drawer on Mobile, Centered Modal on Desktop) -->
+  <div id="surveyModalBackdrop" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden opacity-0 transition-opacity duration-200">
+    <div id="surveyModalBox" class="bg-slate-900 border-t sm:border border-slate-700/80 rounded-t-3xl sm:rounded-2xl w-full sm:max-w-4xl max-h-[94vh] sm:max-h-[90vh] flex flex-col shadow-2xl transform translate-y-full sm:translate-y-0 sm:scale-95 transition-all duration-200 overflow-hidden">
+      <!-- Injected via JavaScript -->
+    </div>
   </div>
 
   <!-- Detail & Outreach Modal (Bottom Sheet on Mobile, Centered Modal on Desktop) -->
@@ -429,6 +558,7 @@
       renderLeads();
       updateStats();
       setupEventListeners();
+      loadSurveyResponses(false);
     });
 
     function setupEventListeners() {
@@ -459,9 +589,22 @@
       document.getElementById('btnExport').addEventListener('click', exportToCSV);
       document.getElementById('btnResetProgress').addEventListener('click', resetAllProgress);
 
+      // Survey responses listeners
+      const searchRespInput = document.getElementById('searchRespInput');
+      if (searchRespInput) {
+        searchRespInput.addEventListener('input', filterResponses);
+      }
+      const sentimentFilter = document.getElementById('sentimentFilter');
+      if (sentimentFilter) {
+        sentimentFilter.addEventListener('change', filterResponses);
+      }
+
       // Close modal on escape or backdrop click
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') {
+          closeModal();
+          closeSurveyModal();
+        }
         if (selectedLead && e.key === 'ArrowLeft') navigateLead(-1);
         if (selectedLead && e.key === 'ArrowRight') navigateLead(1);
       });
@@ -469,6 +612,13 @@
       document.getElementById('modalBackdrop').addEventListener('click', (e) => {
         if (e.target.id === 'modalBackdrop') closeModal();
       });
+
+      const surveyBackdrop = document.getElementById('surveyModalBackdrop');
+      if (surveyBackdrop) {
+        surveyBackdrop.addEventListener('click', (e) => {
+          if (e.target.id === 'surveyModalBackdrop') closeSurveyModal();
+        });
+      }
     }
 
     function clearSearch() {
@@ -900,6 +1050,578 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
       link.click();
       document.body.removeChild(link);
       showToast('Exporting CSV download...');
+    }
+
+    // ==========================================
+    // SURVEY RESPONSES & DOCX EXPORT ENGINE
+    // ==========================================
+    let currentMainView = 'leads';
+    let surveyResponses = [];
+    let currentResponses = [];
+    let selectedResponse = null;
+
+    function switchMainView(view) {
+      currentMainView = view;
+      const leadsSec = document.getElementById('leadsSection');
+      const respSec = document.getElementById('responsesSection');
+      const btnLeads = document.getElementById('viewSwitchLeads');
+      const btnResp = document.getElementById('viewSwitchResponses');
+
+      if (view === 'leads') {
+        leadsSec.classList.remove('hidden');
+        respSec.classList.add('hidden');
+        btnLeads.className = 'flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-md min-h-[44px]';
+        btnResp.className = 'flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white min-h-[44px]';
+      } else {
+        leadsSec.classList.add('hidden');
+        respSec.classList.remove('hidden');
+        btnResp.className = 'flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-md min-h-[44px]';
+        btnLeads.className = 'flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white min-h-[44px]';
+        if (surveyResponses.length === 0) {
+          loadSurveyResponses(false);
+        }
+      }
+    }
+
+    async function loadSurveyResponses(showFeedback = false) {
+      try {
+        const res = await fetch('/api/survey-responses');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        surveyResponses = Array.isArray(data) ? data : [];
+        currentResponses = [...surveyResponses];
+
+        // Update Header Badge and Metrics
+        const count = surveyResponses.length;
+        document.getElementById('badgeResponsesCount').textContent = count;
+        document.getElementById('statRespTotal').textContent = count;
+
+        let totalSentiment = 0;
+        let sentimentCount = 0;
+        let factorTotals = { internet: 0, techAccess: 0, skills: 0, cost: 0 };
+        let factorCount = 0;
+
+        surveyResponses.forEach(r => {
+          const d = r.response_data || {};
+          if (d.q4_3_employeeResponseScale) {
+            totalSentiment += Number(d.q4_3_employeeResponseScale);
+            sentimentCount++;
+          }
+          if (d.q5_1_factors) {
+            factorTotals.internet += Number(d.q5_1_factors.internet || 0);
+            factorTotals.techAccess += Number(d.q5_1_factors.techAccess || 0);
+            factorTotals.skills += Number(d.q5_1_factors.skills || 0);
+            factorTotals.cost += Number(d.q5_1_factors.cost || 0);
+            factorCount++;
+          }
+        });
+
+        const avgSentimentScore = sentimentCount > 0 ? (totalSentiment / sentimentCount) : 0;
+        const avgSentimentPct = Math.round((avgSentimentScore / 5) * 100);
+        document.getElementById('statRespAvgSentiment').textContent = `${avgSentimentPct}%`;
+        document.getElementById('statRespAvgSentimentScore').textContent = `${avgSentimentScore.toFixed(1)} / 5`;
+
+        if (factorCount > 0) {
+          const sortedFactors = [
+            { name: 'Internet Reliability', avg: factorTotals.internet / factorCount },
+            { name: 'Tech Access', avg: factorTotals.techAccess / factorCount },
+            { name: 'Staff Skills', avg: factorTotals.skills / factorCount },
+            { name: 'Operating Costs', avg: factorTotals.cost / factorCount }
+          ].sort((a, b) => b.avg - a.avg);
+          document.getElementById('statRespTopFactor').textContent = `${sortedFactors[0].name} (${Math.round((sortedFactors[0].avg/5)*100)}%)`;
+        }
+
+        filterResponses();
+        if (showFeedback) showToast(`Refreshed ${count} live survey responses`);
+      } catch (err) {
+        console.warn('Error loading survey responses:', err);
+        if (showFeedback) showToast('Notice: Using cached responses');
+      }
+    }
+
+    function filterResponses() {
+      const q = (document.getElementById('searchRespInput')?.value || '').toLowerCase().trim();
+      const sentimentFilter = document.getElementById('sentimentFilter')?.value || 'all';
+
+      currentResponses = surveyResponses.filter(r => {
+        const d = r.response_data || {};
+        const fullText = `${d.participantName || ''} ${d.franchiseName || ''} ${d.role || ''} ${d.contactInfo || ''} ${d.q1_1_toolsUsed || ''} ${d.q2_dailyOperations || ''} ${d.conclusion || ''}`.toLowerCase();
+
+        if (q && !fullText.includes(q)) return false;
+
+        const scale = Number(d.q4_3_employeeResponseScale || 3);
+        if (sentimentFilter === 'high' && scale < 4) return false;
+        if (sentimentFilter === 'medium' && scale !== 3) return false;
+        if (sentimentFilter === 'low' && scale > 2) return false;
+
+        return true;
+      });
+
+      renderResponses();
+    }
+
+    function getSentimentData(val) {
+      const scale = Number(val) || 3;
+      const pct = Math.round((scale / 5) * 100);
+      let label = 'Moderate / Neutral';
+      let colorClass = 'text-amber-400';
+      let barColor = 'bg-amber-400';
+
+      if (scale === 1) {
+        label = 'Highly Resistant';
+        colorClass = 'text-rose-400';
+        barColor = 'bg-rose-500';
+      } else if (scale === 2) {
+        label = 'Hesitant / Cautious';
+        colorClass = 'text-orange-400';
+        barColor = 'bg-orange-500';
+      } else if (scale === 3) {
+        label = 'Moderate / Neutral';
+        colorClass = 'text-yellow-400';
+        barColor = 'bg-yellow-400';
+      } else if (scale === 4) {
+        label = 'Receptive / Enthusiastic';
+        colorClass = 'text-emerald-400';
+        barColor = 'bg-emerald-400';
+      } else if (scale === 5) {
+        label = 'Highly Enthusiastic / Champions';
+        colorClass = 'text-emerald-300';
+        barColor = 'bg-emerald-300';
+      }
+
+      return { scale, pct, label, colorClass, barColor };
+    }
+
+    function formatDateTime(isoStr) {
+      if (!isoStr) return 'N/A';
+      try {
+        const d = new Date(isoStr);
+        return d.toLocaleDateString('en-ZA', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      } catch (e) {
+        return isoStr;
+      }
+    }
+
+    function renderResponses() {
+      const grid = document.getElementById('responsesGrid');
+      const empty = document.getElementById('responsesEmptyState');
+      const countLabel = document.getElementById('respCountLabel');
+
+      countLabel.textContent = `Showing ${currentResponses.length} of ${surveyResponses.length} survey responses`;
+
+      if (currentResponses.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      grid.innerHTML = currentResponses.map(r => {
+        const d = r.response_data || {};
+        const name = d.participantName || 'Anonymous Respondent';
+        const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        const franchise = d.franchiseName || 'Not Specified';
+        const role = d.role || 'Franchise Operator';
+        const dateStr = formatDateTime(r.created_at);
+        const tools = d.q1_1_toolsUsed || 'Not specified';
+
+        // Slider 4.3 Employee Sentiment
+        const emp = getSentimentData(d.q4_3_employeeResponseScale);
+
+        // Slider 5.1 External Factors
+        const factors = d.q5_1_factors || {};
+        const net = Number(factors.internet || 3);
+        const tech = Number(factors.techAccess || 3);
+        const skills = Number(factors.skills || 3);
+        const cost = Number(factors.cost || 3);
+
+        return `
+          <div class="glass-card rounded-2xl p-4 sm:p-6 flex flex-col justify-between cursor-pointer group" onclick="openSurveyModal('${r.id}')">
+            <div>
+              <!-- Card Header -->
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-gradient-to-tr from-emerald-800 to-indigo-900 border border-slate-700/80 flex items-center justify-center font-bold text-xs text-white shadow-sm flex-shrink-0">
+                    ${initials}
+                  </div>
+                  <div class="min-w-0">
+                    <h3 class="font-bold text-white text-base group-hover:text-emerald-300 transition truncate">
+                      ${name}
+                    </h3>
+                    <p class="text-xs text-slate-400 font-medium truncate">${role}</p>
+                  </div>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 flex-shrink-0">
+                  AI Active
+                </span>
+              </div>
+
+              <!-- Brand & Date Badges -->
+              <div class="mt-3.5 flex flex-wrap items-center gap-1.5">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 truncate max-w-[200px]">
+                  ${franchise}
+                </span>
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs text-slate-400 bg-slate-900/60 border border-slate-800">
+                  <svg class="w-3 h-3 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  ${dateStr}
+                </span>
+              </div>
+
+              <!-- Tools Excerpt -->
+              <div class="mt-3 bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
+                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">AI Tools & Systems:</p>
+                <p class="text-xs text-slate-300 mt-0.5 line-clamp-2 leading-relaxed">
+                  ${tools}
+                </p>
+              </div>
+
+              <!-- Quantitative Sliders Metric Strip -->
+              <div class="mt-3.5 space-y-2 pt-3 border-t border-slate-800/80">
+                <!-- 4.3 Employee Response Slider Bar -->
+                <div>
+                  <div class="flex items-center justify-between text-xs mb-1">
+                    <span class="text-slate-400 text-[11px]">4.3 Employee Response:</span>
+                    <span class="font-bold ${emp.colorClass} text-xs">
+                      ${emp.scale} / 5 (${emp.pct}%)
+                    </span>
+                  </div>
+                  <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div class="${emp.barColor} h-1.5 rounded-full transition-all" style="width: ${emp.pct}%"></div>
+                  </div>
+                  <p class="text-[10px] text-slate-500 mt-0.5 text-right italic">${emp.label}</p>
+                </div>
+
+                <!-- 5.1 External Factors Slider Grid -->
+                <div class="pt-1">
+                  <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1.5">5.1 Factors Influence (%):</p>
+                  <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                    <div class="bg-slate-900/80 px-2 py-1 rounded-lg border border-slate-800 flex items-center justify-between">
+                      <span class="text-slate-400 truncate">Internet:</span>
+                      <strong class="text-blue-400 ml-1">${net}/5 (${net*20}%)</strong>
+                    </div>
+                    <div class="bg-slate-900/80 px-2 py-1 rounded-lg border border-slate-800 flex items-center justify-between">
+                      <span class="text-slate-400 truncate">Tech Access:</span>
+                      <strong class="text-blue-400 ml-1">${tech}/5 (${tech*20}%)</strong>
+                    </div>
+                    <div class="bg-slate-900/80 px-2 py-1 rounded-lg border border-slate-800 flex items-center justify-between">
+                      <span class="text-slate-400 truncate">Staff Skills:</span>
+                      <strong class="text-blue-400 ml-1">${skills}/5 (${skills*20}%)</strong>
+                    </div>
+                    <div class="bg-slate-900/80 px-2 py-1 rounded-lg border border-slate-800 flex items-center justify-between">
+                      <span class="text-slate-400 truncate">Costs:</span>
+                      <strong class="text-blue-400 ml-1">${cost}/5 (${cost*20}%)</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
+              <button onclick="openSurveyModal('${r.id}')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-200 border border-slate-700 transition">
+                <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                <span>View Full Q&A</span>
+              </button>
+
+              <a href="/api/export-docx?id=${r.id}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white shadow-md shadow-indigo-600/30 transition">
+                <svg class="w-3.5 h-3.5 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>Download .DOCX</span>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openSurveyModal(responseId) {
+      selectedResponse = surveyResponses.find(r => r.id === responseId);
+      if (!selectedResponse) return;
+
+      const d = selectedResponse.response_data || {};
+      const name = d.participantName || 'Anonymous Participant';
+      const franchise = d.franchiseName || 'Not Specified';
+      const role = d.role || 'Franchise Operator';
+      const contact = d.contactInfo || 'N/A';
+      const dateStr = formatDateTime(selectedResponse.created_at);
+
+      // Slider 4.3 Employee Sentiment
+      const emp = getSentimentData(d.q4_3_employeeResponseScale);
+
+      // Slider 5.1 External Factors
+      const factors = d.q5_1_factors || {};
+      const net = Number(factors.internet || 3);
+      const tech = Number(factors.techAccess || 3);
+      const skills = Number(factors.skills || 3);
+      const cost = Number(factors.cost || 3);
+
+      const activities = Array.isArray(d.q2_1_activities) ? d.q2_1_activities.join(', ') : (d.q2_1_activities || 'None');
+      const improvements = Array.isArray(d.q3_1_improvements) ? d.q3_1_improvements.join(', ') : (d.q3_1_improvements || 'None');
+      const franchisorSupport = d.q5_2_franchisorSupport === true ? 'Yes' : (d.q5_2_franchisorSupport === false ? 'No' : 'Not Specified');
+
+      const modalBox = document.getElementById('surveyModalBox');
+      modalBox.innerHTML = `
+        <!-- Modal Top Bar -->
+        <div class="px-4 sm:px-6 py-3.5 sm:py-5 border-b border-slate-800 bg-slate-900/95 flex items-start justify-between gap-3 flex-shrink-0">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base sm:text-xl font-bold text-white truncate">${name}</h2>
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                AI Active
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-0.5">${franchise} • ${role} • Submitted ${dateStr}</p>
+          </div>
+
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <a href="/api/export-docx?id=${selectedResponse.id}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white shadow-md transition min-h-[40px]">
+              <svg class="w-4 h-4 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Download .DOCX</span>
+            </a>
+            <button onclick="closeSurveyModal()" class="w-10 h-10 min-w-[40px] min-h-[40px] rounded-xl flex items-center justify-center text-slate-400 hover:text-white bg-slate-800/80 active:bg-slate-700 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scrollable Modal Content -->
+        <div class="p-4 sm:p-6 overflow-y-auto space-y-5 text-sm overscroll-contain flex-1">
+          
+          <!-- Participant Details Table -->
+          <div class="bg-slate-950/60 rounded-xl p-3.5 border border-slate-800">
+            <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-2">Participant & Organisation Profile</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div><span class="text-slate-500">Full Name:</span> <strong class="text-white">${name}</strong></div>
+              <div><span class="text-slate-500">Franchise Brand:</span> <strong class="text-indigo-300">${franchise}</strong></div>
+              <div><span class="text-slate-500">Operational Role:</span> <strong class="text-slate-200">${role}</strong></div>
+              <div><span class="text-slate-500">Contact / Email:</span> <strong class="text-slate-200">${contact}</strong></div>
+              <div class="sm:col-span-2 text-[11px] text-slate-500 italic">Record ID: ${selectedResponse.id}</div>
+            </div>
+          </div>
+
+          <!-- Section 1 -->
+          <div class="space-y-3 pt-2 border-t border-slate-800">
+            <h3 class="font-bold text-indigo-400 text-xs sm:text-sm uppercase tracking-wider">1. AI Usage & Adoption</h3>
+            
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">1.1 What are the types of AI-tools or AI-systems that you use?</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q1_1_toolsUsed || 'N/A'}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">1.2 Who in the business use the AI tools?</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q1_2_whoUsesTools || 'N/A'}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">1.3 When did your franchise or business start to use AI?</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q1_3_whenStarted || 'N/A'}
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div class="space-y-3 pt-3 border-t border-slate-800">
+            <h3 class="font-bold text-indigo-400 text-xs sm:text-sm uppercase tracking-wider">2. Daily Operations</h3>
+            
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">2. How is AI used in daily operations?</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q2_dailyOperations || 'N/A'}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">2.1 Activities Supported:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                <strong>Selected:</strong> ${activities}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">2.1 (Qualitative Details) Operational Elaboration:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q2_1_activitiesDetails || 'N/A'}
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3 -->
+          <div class="space-y-3 pt-3 border-t border-slate-800">
+            <h3 class="font-bold text-indigo-400 text-xs sm:text-sm uppercase tracking-wider">3. Operational Efficiency</h3>
+            
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">3. Role of AI in Operational Efficiency:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q3_roleInEfficiency || 'N/A'}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">3.1 Improvements Observed:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                <strong>Selected:</strong> ${improvements}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">3.1 (Qualitative Details) Efficiency Elaboration:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q3_1_improvementsDetails || 'N/A'}
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4 (SLIDER WITH EXPLICIT PERCENTAGE) -->
+          <div class="space-y-3 pt-3 border-t border-slate-800">
+            <h3 class="font-bold text-indigo-400 text-xs sm:text-sm uppercase tracking-wider">4. Benefits, Challenges & Employee Sentiment</h3>
+            
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">4.1 Main Benefits Experienced:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q4_1_benefits || 'N/A'}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">4.2 Challenges Affecting Adoption:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q4_2_challenges || 'N/A'}
+              </div>
+            </div>
+
+            <!-- Quantitative Slider 4.3 -->
+            <div class="p-3.5 rounded-xl bg-slate-950/80 border border-amber-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300">4.3 Employee Response Slider:</span>
+                <span class="text-sm font-bold ${emp.colorClass}">
+                  Rating: ${emp.scale} / 5 (${emp.pct}%)
+                </span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                <div class="${emp.barColor} h-2.5 rounded-full" style="width: ${emp.pct}%"></div>
+              </div>
+              <p class="text-xs text-slate-300"><strong>Interpretation:</strong> ${emp.label}</p>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">4.3 (Qualitative Context) Employee Response Context:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q4_3_employeeResponseText || 'N/A'}
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 5 (SLIDERS WITH EXPLICIT PERCENTAGES) -->
+          <div class="space-y-3 pt-3 border-t border-slate-800">
+            <h3 class="font-bold text-indigo-400 text-xs sm:text-sm uppercase tracking-wider">5. External & Organisational Factors</h3>
+            
+            <div class="p-3.5 rounded-xl bg-slate-950/80 border border-blue-500/30 space-y-2">
+              <p class="text-xs font-bold text-blue-300">5.1 Factors Influencing Adoption (Sliders 1–5 with Percentages):</p>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                  <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-400">Internet Reliability:</span>
+                    <strong class="text-blue-400">${net} / 5 (${net*20}%)</strong>
+                  </div>
+                  <div class="w-full bg-slate-800 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: ${net*20}%"></div></div>
+                </div>
+
+                <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                  <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-400">Access to Technology:</span>
+                    <strong class="text-blue-400">${tech} / 5 (${tech*20}%)</strong>
+                  </div>
+                  <div class="w-full bg-slate-800 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: ${tech*20}%"></div></div>
+                </div>
+
+                <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                  <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-400">Skills of Staff:</span>
+                    <strong class="text-blue-400">${skills} / 5 (${skills*20}%)</strong>
+                  </div>
+                  <div class="w-full bg-slate-800 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: ${skills*20}%"></div></div>
+                </div>
+
+                <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                  <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-400">Operational Costs:</span>
+                    <strong class="text-blue-400">${cost} / 5 (${cost*20}%)</strong>
+                  </div>
+                  <div class="w-full bg-slate-800 rounded-full h-1.5"><div class="bg-blue-500 h-1.5 rounded-full" style="width: ${cost*20}%"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">5.1 (Explanation) How Factors Influence Adoption:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q5_1_factorsExplanation || 'N/A'}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">5.2 Franchisor Support / Guidance:</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                <strong>Status:</strong> ${franchisorSupport} — ${d.q5_2_franchisorSupportDetails || ''}
+              </div>
+            </div>
+
+            <div class="space-y-1">
+              <p class="text-xs font-semibold text-slate-300">5.3 Tool Choice Control (Franchisor vs Store):</p>
+              <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+                ${d.q5_3_toolChoiceControl || 'N/A'}
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 6 -->
+          <div class="space-y-3 pt-3 border-t border-slate-800">
+            <h3 class="font-bold text-indigo-400 text-xs sm:text-sm uppercase tracking-wider">6. Conclusion & Additional Remarks</h3>
+            <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 text-xs leading-relaxed">
+              ${d.conclusion || 'No additional comments provided.'}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="p-4 sm:p-5 border-t border-slate-800 bg-slate-900/95 flex items-center justify-between gap-3 flex-shrink-0">
+          <button onclick="closeSurveyModal()" class="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-300 transition min-h-[42px]">
+            Close Review
+          </button>
+          
+          <a href="/api/export-docx?id=${selectedResponse.id}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white shadow-lg shadow-indigo-600/30 transition min-h-[42px]">
+            <svg class="w-4 h-4 text-indigo-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Export Official .DOCX</span>
+          </a>
+        </div>
+      `;
+
+      const backdrop = document.getElementById('surveyModalBackdrop');
+      backdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        modalBox.classList.remove('translate-y-full', 'sm:scale-95');
+      }, 10);
+    }
+
+    function closeSurveyModal() {
+      const backdrop = document.getElementById('surveyModalBackdrop');
+      const box = document.getElementById('surveyModalBox');
+      backdrop.classList.add('opacity-0');
+      box.classList.add('translate-y-full', 'sm:scale-95');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+        selectedResponse = null;
+      }, 200);
     }
   </script>
 </body>

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "68b12ac8-35c2-4cb7-b5c2-92deb930a7a7",
+    "created_at": "2026-10-14T15:41:23.32112+00:00",
+    "response_data": {
+      "role": "Managing Director",
+      "conclusion": "AI has been essential to staying competitive.",
+      "contactInfo": "test@example.com",
+      "q1_isUsingAI": true,
+      "q5_1_factors": {
+        "cost": 4,
+        "skills": 3,
+        "internet": 4,
+        "techAccess": 4
+      },
+      "franchiseName": "Test Enterprise Franchise",
+      "q4_1_benefits": "Reduced food waste and faster staff scheduling.",
+      "q1_1_toolsUsed": "Inventory AI forecasting, Automated kitchen scheduling, Chatbot customer support",
+      "participantName": "Mandisi Kgoadi",
+      "q2_1_activities": [
+        "Stock Management",
+        "Ordering",
+        "Scheduling"
+      ],
+      "q4_2_challenges": "Initial staff onboarding and digital literacy.",
+      "q1_3_whenStarted": "Early 2025",
+      "q1_2_whoUsesTools": "Store managers and kitchen operations lead",
+      "q3_1_improvements": [
+        "Saved Time",
+        "Reduced Errors"
+      ],
+      "q2_dailyOperations": "We use it continuously for inventory tracking and scheduling.",
+      "q3_roleInEfficiency": "It eliminates human calculation errors and saves about 10 hours a week.",
+      "q2_1_activitiesDetails": "Automated replenishment orders are drafted by AI.",
+      "q5_2_franchisorSupport": true,
+      "q5_3_toolChoiceControl": "Head office approves the enterprise tools but store owners have local discretion.",
+      "q5_1_factorsExplanation": "Load shedding and fiber stability can disrupt real-time syncing.",
+      "q3_1_improvementsDetails": "Labor forecasting accuracy is up 30%.",
+      "q4_3_employeeResponseText": "Staff were receptive once they saw it saves them late hours.",
+      "q4_3_employeeResponseScale": 4,
+      "q5_2_franchisorSupportDetails": "Franchisor provides subsidized training webinars."
+    },
+    "pdf_url": null
+  }
+]

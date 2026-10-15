@@ -1,2 +1,2 @@
-# Python Standard Library only (urllib, http.server, socketserver, json, csv, re)
-# No external pip dependencies strictly required.
+# Python dependencies for Franchise Outreach Cockpit & DOCX Report Engine
+python-docx>=1.1.0
