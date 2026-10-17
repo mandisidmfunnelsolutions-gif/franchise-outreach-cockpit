@@ -458,7 +458,14 @@
         <!-- Tab 1: Post-Connection Message -->
         <div id="tabPostConnect" class="space-y-3">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <span class="text-xs text-slate-400">Personalized for <strong id="msgTargetName" class="text-white">Riyaadh</strong>:</span>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs text-slate-400">Target: <strong id="msgTargetName" class="text-white">Riyaadh</strong></span>
+              <span class="text-slate-600 hidden sm:inline">•</span>
+              <div class="inline-flex items-center gap-1.5 bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                <span class="text-[11px] text-slate-400">Sign-off:</span>
+                <input id="senderNameInput" type="text" placeholder="(Your name)" oninput="updateSenderName(this.value)" class="bg-transparent text-xs text-indigo-300 font-medium placeholder-slate-500 focus:outline-none w-28 sm:w-36" title="Set your name for the sign-off, or leave blank for (Your name)">
+              </div>
+            </div>
             <button onclick="copyCurrentMessage('postConnect')" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white transition shadow-md min-h-[42px]">
               <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
               <span>Copy Full LinkedIn DM</span>
@@ -801,11 +808,29 @@
       }).join('');
     }
 
+    function getSenderName() {
+      const saved = localStorage.getItem('study_sender_name');
+      return (saved && saved.trim()) ? saved.trim() : '(Your name)';
+    }
+
+    function updateSenderName(val) {
+      if (val && val.trim() && val.trim() !== '(Your name)') {
+        localStorage.setItem('study_sender_name', val.trim());
+      } else {
+        localStorage.removeItem('study_sender_name');
+      }
+      if (selectedLead) {
+        const { postConnect } = generatePersonalizedMessages(selectedLead);
+        document.getElementById('postConnectText').value = postConnect;
+      }
+    }
+
     function generatePersonalizedMessages(lead) {
       const firstName = lead.first_name || 'there';
       const brand = lead.company_name || 'your franchise network';
       const role = lead.job_title || 'Franchise Owner';
       const location = lead.location || 'South Africa';
+      const sender = getSenderName();
 
       // 1. Full Post-Connection LinkedIn Message
       const postConnect = `Hi ${firstName},
@@ -823,7 +848,7 @@ All findings are strictly academic, confidential, and anonymous. I would also be
 Thank you for your time, ${firstName}, and I look forward to hearing your thoughts!
 
 Warm regards,
-Mandisi Kgoadi
+${sender}
 University of Pretoria | BCom (Hons) Strategic Business Management`;
 
       // 2. Pre-Connection Note (<300 Chars)
@@ -851,6 +876,12 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
       document.getElementById('modalSnippet').textContent = `"${selectedLead.snippet}"`;
       document.getElementById('msgTargetName').textContent = selectedLead.first_name;
       document.getElementById('leadNoteInput').value = state.note || '';
+
+      const senderInput = document.getElementById('senderNameInput');
+      if (senderInput) {
+        const saved = localStorage.getItem('study_sender_name');
+        senderInput.value = (saved && saved !== '(Your name)') ? saved : '';
+      }
 
       const { postConnect, preConnect } = generatePersonalizedMessages(selectedLead);
       document.getElementById('postConnectText').value = postConnect;

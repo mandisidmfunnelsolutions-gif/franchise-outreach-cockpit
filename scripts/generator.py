@@ -704,7 +704,7 @@ All findings are strictly academic, confidential, and anonymous. I would also be
 Thank you for your time, ${{firstName}}, and I look forward to hearing your thoughts!
 
 Warm regards,
-Mandisi Kgoadi
+(Your name)
 University of Pretoria | BCom (Hons) Strategic Business Management`;
 
       // 2. Pre-Connection Note (<300 Chars)
