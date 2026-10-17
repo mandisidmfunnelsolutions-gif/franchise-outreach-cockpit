@@ -559,6 +559,11 @@
       updateStats();
       setupEventListeners();
       loadSurveyResponses(false);
+
+      // Auto-refresh survey responses every 15 seconds for real-time live sync
+      setInterval(() => {
+        loadSurveyResponses(false);
+      }, 15000);
     });
 
     function setupEventListeners() {
@@ -1077,9 +1082,7 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
         respSec.classList.remove('hidden');
         btnResp.className = 'flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-md min-h-[44px]';
         btnLeads.className = 'flex-1 inline-flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white min-h-[44px]';
-        if (surveyResponses.length === 0) {
-          loadSurveyResponses(false);
-        }
+        loadSurveyResponses(false);
       }
     }
 
