@@ -34,6 +34,7 @@ HTML_FILE = BASE_DIR / "index.html"
 CSV_FILE = BASE_DIR / "data" / "sa_food_beverage_franchise_owners_linkedin.csv"
 JSON_FILE = BASE_DIR / "data" / "sa_food_beverage_franchise_owners_linkedin.json"
 CACHE_RESPONSES_FILE = BASE_DIR / "data" / "survey_responses_cache.json"
+LEAD_STATES_FILE = BASE_DIR / "data" / "lead_states.json"
 
 # Load .env file manually if present
 ENV_FILE = BASE_DIR / ".env"
@@ -96,9 +97,41 @@ class handler(BaseHTTPRequestHandler):
         """Handle CORS pre-flight."""
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
+
+    def do_POST(self):
+        parsed_url = urllib.parse.urlparse(self.path)
+        clean_path = parsed_url.path.rstrip("/")
+
+        # Save/Sync Lead States (connection requests, statuses, notes, stars)
+        if clean_path in ["/api/lead-states", "/lead-states"]:
+            try:
+                content_length = int(self.headers.get("Content-Length", 0))
+                body = self.rfile.read(content_length).decode("utf-8")
+                states_data = json.loads(body)
+                LEAD_STATES_FILE.parent.mkdir(parents=True, exist_ok=True)
+                LEAD_STATES_FILE.write_text(json.dumps(states_data, indent=2, ensure_ascii=False), encoding="utf-8")
+                
+                resp = json.dumps({"success": True, "count": len(states_data)}).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(resp)))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(resp)
+            except Exception as e:
+                err_resp = json.dumps({"error": str(e)}).encode("utf-8")
+                self.send_response(400)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(err_resp)))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(err_resp)
+            return
+        else:
+            self.send_error(404, "Endpoint not found")
 
     def do_GET(self):
         parsed_url = urllib.parse.urlparse(self.path)
@@ -127,7 +160,19 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(content)
             return
 
-        # 3. Live Survey Responses JSON API
+        # 3. Lead States JSON API (Connection requests sent, statuses, notes)
+        elif clean_path in ["/api/lead-states", "/data/lead_states.json", "/lead-states.json"]:
+            content = LEAD_STATES_FILE.read_bytes() if LEAD_STATES_FILE.exists() else b"{}"
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(content)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+            self.end_headers()
+            self.wfile.write(content)
+            return
+
+        # 4. Live Survey Responses JSON API
         elif clean_path in ["/api/survey-responses", "/api/responses", "/data/survey-responses.json"]:
             responses = fetch_survey_responses_from_supabase()
             content = json.dumps(responses, ensure_ascii=False).encode("utf-8")

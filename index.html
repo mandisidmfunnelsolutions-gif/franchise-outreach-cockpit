@@ -107,12 +107,22 @@
       </div>
 
       <!-- Quick Metrics Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-slate-800/80">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-4 mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-slate-800/80">
         <div class="bg-slate-900/60 p-3 sm:p-4 rounded-xl border border-slate-800">
           <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold truncate">Verified Leads</p>
           <div class="flex items-baseline gap-1.5 sm:gap-2 mt-1">
             <span class="text-xl sm:text-2xl font-bold text-white" id="statTotal">88</span>
             <span class="text-[10px] sm:text-xs text-indigo-400">100% Live</span>
+          </div>
+        </div>
+        <div class="bg-slate-900/60 p-3 sm:p-4 rounded-xl border border-sky-500/20 bg-gradient-to-b from-sky-950/20 to-transparent">
+          <p class="text-[10px] sm:text-xs uppercase tracking-wider text-sky-400 font-semibold truncate flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+            Reqs Sent
+          </p>
+          <div class="flex items-baseline gap-1.5 sm:gap-2 mt-1">
+            <span class="text-xl sm:text-2xl font-bold text-sky-400" id="statReqSent">0</span>
+            <span class="text-[10px] sm:text-xs text-slate-500" id="statReqSentPct">0%</span>
           </div>
         </div>
         <div class="bg-slate-900/60 p-3 sm:p-4 rounded-xl border border-slate-800">
@@ -129,7 +139,7 @@
             <span class="text-[10px] sm:text-xs text-slate-500" id="statSentPct">0%</span>
           </div>
         </div>
-        <div class="bg-slate-900/60 p-3 sm:p-4 rounded-xl border border-slate-800">
+        <div class="col-span-2 sm:col-span-1 bg-slate-900/60 p-3 sm:p-4 rounded-xl border border-slate-800">
           <p class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-400 font-semibold truncate">Pending Outreach</p>
           <div class="flex items-baseline gap-1.5 sm:gap-2 mt-1">
             <span class="text-xl sm:text-2xl font-bold text-slate-300" id="statPending">88</span>
@@ -176,6 +186,11 @@
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 -mx-1 px-1 touch-pan-x" id="quickChipsBar">
           <button onclick="setQuickChip('all')" class="quick-chip chip-active px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="all">
             All (88)
+          </button>
+          <button onclick="setQuickChip('request_sent')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px] flex items-center gap-1.5" data-chip="request_sent">
+            <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+            <span>Req Sent</span>
+            <span id="chipReqSentBadge" class="px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">0</span>
           </button>
           <button onclick="setQuickChip('starred')" class="quick-chip px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap bg-slate-900 text-slate-300 border border-slate-700/80 transition min-h-[36px]" data-chip="starred">
             ★ Starred
@@ -238,9 +253,11 @@
           <!-- Status Filter -->
           <select id="statusFilter" class="col-span-2 sm:col-span-1 bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 sm:px-3 py-2 text-base sm:text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[42px] truncate">
             <option value="all">All Statuses</option>
-            <option value="pending">Pending</option>
+            <option value="request_sent">✉ Connection Request Sent</option>
+            <option value="pending">Pending Outreach</option>
             <option value="copied">Message Copied</option>
             <option value="sent">Contacted / Sent</option>
+            <option value="connected">Connected</option>
             <option value="starred">Starred Leads</option>
           </select>
         </div>
@@ -484,10 +501,16 @@
         <div id="tabPreConnect" class="space-y-3 hidden">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <span class="text-xs text-slate-400">LinkedIn Note (<span id="preConnectCharCount" class="text-amber-400 font-semibold">0</span>/300 chars):</span>
-            <button onclick="copyCurrentMessage('preConnect')" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white transition shadow-md min-h-[42px]">
-              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
-              <span>Copy Connection Note</span>
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="copyCurrentMessage('preConnect')" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-200 border border-slate-700 transition shadow-sm min-h-[42px]">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                <span>Copy Note</span>
+              </button>
+              <button onclick="copyAndMarkRequestSent()" class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 sm:py-2 rounded-xl text-xs font-semibold bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white transition shadow-md min-h-[42px]">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span>Copy & Mark Req Sent</span>
+              </button>
+            </div>
           </div>
           <textarea id="preConnectText" rows="4" class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-3 sm:p-4 text-base sm:text-xs text-slate-200 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/50"></textarea>
         </div>
@@ -508,11 +531,15 @@
         <div class="space-y-3 pt-3 border-t border-slate-800">
           <div>
             <label class="block text-[10px] sm:text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Update Outreach Status</label>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
               <button onclick="setLeadStatus('pending')" id="statusBtn_pending" class="px-2.5 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 flex items-center justify-center min-h-[44px]">Pending</button>
+              <button onclick="setLeadStatus('request_sent')" id="statusBtn_request_sent" class="px-2.5 py-2.5 rounded-xl text-xs font-medium border border-sky-500/40 bg-sky-950/40 text-sky-300 hover:bg-sky-900/60 flex items-center justify-center gap-1 min-h-[44px]">
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span>Req Sent</span>
+              </button>
               <button onclick="setLeadStatus('copied')" id="statusBtn_copied" class="px-2.5 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 flex items-center justify-center min-h-[44px]">Copied</button>
-              <button onclick="setLeadStatus('sent')" id="statusBtn_sent" class="px-2.5 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 flex items-center justify-center min-h-[44px]">Contacted</button>
               <button onclick="setLeadStatus('connected')" id="statusBtn_connected" class="px-2.5 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 flex items-center justify-center min-h-[44px]">Connected</button>
+              <button onclick="setLeadStatus('sent')" id="statusBtn_sent" class="px-2.5 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 flex items-center justify-center min-h-[44px]">Contacted</button>
             </div>
           </div>
           <div>
@@ -572,6 +599,7 @@
       updateStats();
       setupEventListeners();
       loadSurveyResponses(false);
+      syncLeadStatesFromServer();
 
       // Support direct deep link to survey responses (?view=responses or #responses)
       const urlParams = new URLSearchParams(window.location.search);
@@ -669,6 +697,8 @@
         document.getElementById('brandFilter').value = 'all';
         document.getElementById('regionFilter').value = 'all';
         document.getElementById('statusFilter').value = 'all';
+      } else if (chipKey === 'request_sent') {
+        document.getElementById('statusFilter').value = 'request_sent';
       } else if (chipKey === 'gauteng') {
         document.getElementById('regionFilter').value = 'Gauteng';
       } else if (chipKey === 'western-cape') {
@@ -715,14 +745,17 @@
           if (!lead.location.toLowerCase().includes(region.toLowerCase())) return false;
         }
 
-        // Status
+        // Status & Connection Request Filtering
         const st = (leadStates[lead.id] && leadStates[lead.id].status) || 'pending';
         const isStarred = leadStates[lead.id] && leadStates[lead.id].starred;
+        const isReqSent = st === 'request_sent' || !!(leadStates[lead.id] && leadStates[lead.id].connection_request_sent);
 
         if (status === 'starred' && !isStarred) return false;
+        if (status === 'request_sent' && !isReqSent) return false;
         if (status === 'pending' && st !== 'pending') return false;
         if (status === 'copied' && st !== 'copied') return false;
         if (status === 'sent' && st !== 'sent' && st !== 'connected') return false;
+        if (status === 'connected' && st !== 'connected') return false;
 
         return true;
       });
@@ -754,7 +787,8 @@
       emptyState.classList.add('hidden');
 
       grid.innerHTML = currentLeads.map(lead => {
-        const state = leadStates[lead.id] || { status: 'pending', starred: false };
+        const state = leadStates[lead.id] || { status: 'pending', starred: false, connection_request_sent: false };
+        const isReqSent = state.status === 'request_sent' || !!state.connection_request_sent;
         const initials = lead.full_name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
         
         // Badge color mapping
@@ -768,9 +802,15 @@
 
         // Status badge
         let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-400">Pending</span>';
-        if (state.status === 'copied') statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300">Copied</span>';
-        if (state.status === 'sent') statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300">Sent</span>';
-        if (state.status === 'connected') statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300">Connected</span>';
+        if (state.status === 'connected') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30">Connected</span>';
+        } else if (state.status === 'sent') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Sent</span>';
+        } else if (isReqSent) {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-sky-500/20 text-sky-300 border border-sky-500/30 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Req Sent</span>';
+        } else if (state.status === 'copied') {
+          statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">Copied</span>';
+        }
 
         return `
           <div class="glass-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between cursor-pointer group" onclick="openLeadModal('${lead.id}')">
@@ -811,9 +851,17 @@
                 Draft Outreach
                 <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
               </span>
-              <a href="${lead.linkedin_url}" target="_blank" onclick="event.stopPropagation()" class="p-2 -mr-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center min-w-[36px] min-h-[36px]" title="Open LinkedIn Profile">
-                <svg class="w-4 h-4 fill-current text-[#70B5F9]" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>
-              </a>
+              <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+                <button onclick="toggleLeadConnectionRequest('${lead.id}')" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 ${isReqSent ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm' : 'bg-slate-800/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 active:bg-slate-700'}" title="${isReqSent ? 'Connection request marked as sent. Click to toggle back.' : 'Mark connection request as sent'}">
+                  ${isReqSent 
+                    ? '<svg class="w-3.5 h-3.5 text-sky-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span>Req Sent</span>'
+                    : '<svg class="w-3.5 h-3.5 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg><span>+ Req Sent</span>'
+                  }
+                </button>
+                <a href="${lead.linkedin_url}" target="_blank" class="p-2 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center min-w-[36px] min-h-[36px]" title="Open LinkedIn Profile">
+                  <svg class="w-4 h-4 fill-current text-[#70B5F9]" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.64 1.64 0 1 0 0-3.28 1.64 1.64 0 0 0 0 3.28m1.4 9.74v-8.37H5.06v8.37h2.8z"/></svg>
+                </a>
+              </div>
             </div>
           </div>
         `;
@@ -969,7 +1017,7 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
       const text = type === 'postConnect' ? document.getElementById('postConnectText').value : document.getElementById('preConnectText').value;
       navigator.clipboard.writeText(text).then(() => {
         showToast(type === 'postConnect' ? 'Full LinkedIn DM copied to clipboard!' : 'Pre-connect note copied to clipboard!');
-        if (selectedLead) {
+        if (selectedLead && (!leadStates[selectedLead.id] || leadStates[selectedLead.id].status === 'pending')) {
           setLeadStatus('copied');
         }
       }).catch(() => {
@@ -978,26 +1026,90 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
         textarea.select();
         document.execCommand('copy');
         showToast('Copied to clipboard!');
-        if (selectedLead) setLeadStatus('copied');
+        if (selectedLead && (!leadStates[selectedLead.id] || leadStates[selectedLead.id].status === 'pending')) {
+          setLeadStatus('copied');
+        }
       });
+    }
+
+    function copyAndMarkRequestSent() {
+      if (!selectedLead) return;
+      copyCurrentMessage('preConnect');
+      if (!leadStates[selectedLead.id]) leadStates[selectedLead.id] = { status: 'pending', starred: false };
+      leadStates[selectedLead.id].connection_request_sent = true;
+      leadStates[selectedLead.id].connection_request_sent_at = new Date().toISOString();
+      if (!leadStates[selectedLead.id].status || leadStates[selectedLead.id].status === 'pending' || leadStates[selectedLead.id].status === 'copied') {
+        leadStates[selectedLead.id].status = 'request_sent';
+      }
+      saveStates();
+      updateStatusButtons(leadStates[selectedLead.id].status);
+      updateStats();
+      applyFilters();
+      showToast('Pre-connection note copied & marked as Connection Request Sent!');
+    }
+
+    function toggleLeadConnectionRequest(leadId) {
+      if (!leadStates[leadId]) leadStates[leadId] = { status: 'pending', starred: false, connection_request_sent: false };
+      
+      const current = !!leadStates[leadId].connection_request_sent || leadStates[leadId].status === 'request_sent';
+      const target = !current;
+      
+      leadStates[leadId].connection_request_sent = target;
+      
+      const leadObj = LEADS_DATA.find(l => l.id === leadId);
+      const leadName = leadObj ? leadObj.full_name : 'Lead';
+
+      if (target) {
+        if (!leadStates[leadId].status || leadStates[leadId].status === 'pending') {
+          leadStates[leadId].status = 'request_sent';
+        }
+        leadStates[leadId].connection_request_sent_at = new Date().toISOString();
+        showToast(`Marked connection request sent: ${leadName}`);
+      } else {
+        if (leadStates[leadId].status === 'request_sent') {
+          leadStates[leadId].status = 'pending';
+        }
+        delete leadStates[leadId].connection_request_sent_at;
+        showToast(`Unmarked connection request: ${leadName}`);
+      }
+
+      saveStates();
+      updateStats();
+      applyFilters();
+      if (selectedLead && selectedLead.id === leadId) {
+        updateStatusButtons(leadStates[leadId].status || 'pending');
+      }
     }
 
     function setLeadStatus(status) {
       if (!selectedLead) return;
       if (!leadStates[selectedLead.id]) leadStates[selectedLead.id] = {};
       leadStates[selectedLead.id].status = status;
+      if (status === 'request_sent' || status === 'connected' || status === 'sent') {
+        leadStates[selectedLead.id].connection_request_sent = true;
+      }
       saveStates();
       updateStatusButtons(status);
       updateStats();
-      renderLeads();
+      applyFilters();
     }
 
     function updateStatusButtons(activeStatus) {
-      ['pending', 'copied', 'sent', 'connected'].forEach(s => {
+      ['pending', 'request_sent', 'copied', 'connected', 'sent'].forEach(s => {
         const btn = document.getElementById(`statusBtn_${s}`);
         if (!btn) return;
         if (s === activeStatus) {
-          btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white border border-indigo-500 shadow-sm flex items-center justify-center min-h-[44px]';
+          if (s === 'request_sent') {
+            btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-semibold bg-sky-600 text-white border border-sky-400 shadow-md flex items-center justify-center gap-1 min-h-[44px]';
+          } else if (s === 'connected') {
+            btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-semibold bg-blue-600 text-white border border-blue-400 shadow-md flex items-center justify-center gap-1 min-h-[44px]';
+          } else if (s === 'sent') {
+            btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white border border-emerald-400 shadow-md flex items-center justify-center gap-1 min-h-[44px]';
+          } else if (s === 'copied') {
+            btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-semibold bg-amber-600 text-white border border-amber-400 shadow-md flex items-center justify-center gap-1 min-h-[44px]';
+          } else {
+            btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white border border-indigo-500 shadow-md flex items-center justify-center min-h-[44px]';
+          }
         } else {
           btn.className = 'px-2.5 py-2.5 rounded-xl text-xs font-medium border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 active:bg-slate-700 flex items-center justify-center min-h-[44px]';
         }
@@ -1010,7 +1122,7 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
       leadStates[selectedLead.id].starred = !leadStates[selectedLead.id].starred;
       saveStates();
       updateStarIcon(leadStates[selectedLead.id].starred);
-      renderLeads();
+      applyFilters();
     }
 
     function updateStarIcon(starred) {
@@ -1032,28 +1144,73 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
       showToast('Note saved');
     }
 
+    async function syncLeadStatesFromServer() {
+      try {
+        const res = await fetch('/api/lead-states');
+        if (res.ok) {
+          const serverStates = await res.json();
+          if (serverStates && typeof serverStates === 'object' && Object.keys(serverStates).length > 0) {
+            leadStates = { ...leadStates, ...serverStates };
+            localStorage.setItem('franchise_lead_states', JSON.stringify(leadStates));
+            updateStats();
+            applyFilters();
+          }
+        }
+      } catch (e) {
+        // Fallback to localStorage
+      }
+    }
+
     function saveStates() {
       localStorage.setItem('franchise_lead_states', JSON.stringify(leadStates));
+      try {
+        fetch('/api/lead-states', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(leadStates)
+        }).catch(() => {});
+      } catch (e) {}
     }
 
     function updateStats() {
       const total = LEADS_DATA.length;
       let copied = 0;
       let sent = 0;
+      let reqSent = 0;
 
       Object.values(leadStates).forEach(st => {
         if (st.status === 'copied') copied++;
         if (st.status === 'sent' || st.status === 'connected') sent++;
+        if (st.status === 'request_sent' || st.connection_request_sent || st.status === 'connected' || st.status === 'sent') {
+          reqSent++;
+        }
       });
 
       const pending = total - (copied + sent);
 
-      document.getElementById('statTotal').textContent = total;
-      document.getElementById('statCopied').textContent = copied;
-      document.getElementById('statCopiedPct').textContent = `${Math.round((copied/total)*100)}%`;
-      document.getElementById('statSent').textContent = sent;
-      document.getElementById('statSentPct').textContent = `${Math.round((sent/total)*100)}%`;
-      document.getElementById('statPending').textContent = pending;
+      const elTotal = document.getElementById('statTotal');
+      if (elTotal) elTotal.textContent = total;
+
+      const elReqSent = document.getElementById('statReqSent');
+      if (elReqSent) elReqSent.textContent = reqSent;
+      const elReqSentPct = document.getElementById('statReqSentPct');
+      if (elReqSentPct) elReqSentPct.textContent = `${Math.round((reqSent / total) * 100)}%`;
+
+      const elChipReqBadge = document.getElementById('chipReqSentBadge');
+      if (elChipReqBadge) elChipReqBadge.textContent = reqSent;
+
+      const elCopied = document.getElementById('statCopied');
+      if (elCopied) elCopied.textContent = copied;
+      const elCopiedPct = document.getElementById('statCopiedPct');
+      if (elCopiedPct) elCopiedPct.textContent = `${Math.round((copied / total) * 100)}%`;
+
+      const elSent = document.getElementById('statSent');
+      if (elSent) elSent.textContent = sent;
+      const elSentPct = document.getElementById('statSentPct');
+      if (elSentPct) elSentPct.textContent = `${Math.round((sent / total) * 100)}%`;
+
+      const elPending = document.getElementById('statPending');
+      if (elPending) elPending.textContent = Math.max(0, pending);
     }
 
     function resetAllProgress() {
@@ -1061,7 +1218,7 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
         leadStates = {};
         saveStates();
         updateStats();
-        renderLeads();
+        applyFilters();
         showToast('All progress reset');
       }
     }
@@ -1076,9 +1233,10 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
     }
 
     function exportToCSV() {
-      const headers = ['Full Name', 'Company / Brand', 'Role', 'Location', 'LinkedIn URL', 'Outreach Status', 'Private Notes'];
+      const headers = ['Full Name', 'Company / Brand', 'Role', 'Location', 'LinkedIn URL', 'Outreach Status', 'Connection Req Sent', 'Private Notes'];
       const rows = LEADS_DATA.map(l => {
-        const st = leadStates[l.id] || { status: 'pending', note: '' };
+        const st = leadStates[l.id] || { status: 'pending', note: '', connection_request_sent: false };
+        const reqSentStr = (st.status === 'request_sent' || st.connection_request_sent || st.status === 'connected' || st.status === 'sent') ? 'YES' : 'NO';
         return [
           `"${l.full_name}"`,
           `"${l.company_name}"`,
@@ -1086,7 +1244,8 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
           `"${l.location}"`,
           `"${l.linkedin_url}"`,
           `"${st.status || 'pending'}"`,
-          `"${st.note || ''}"`
+          `"${reqSentStr}"`,
+          `"${(st.note || '').replace(/"/g, '""')}"`
         ].join(',');
       });
       const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
