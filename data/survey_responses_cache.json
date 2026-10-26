@@ -1,1 +1,46 @@
-[]
+[
+  {
+    "id": "19f858ec-4518-4439-8d3a-27987ad9cef1",
+    "created_at": "2026-10-26T17:54:35.955434+00:00",
+    "response_data": {
+      "role": "Owner ",
+      "conclusion": "",
+      "contactInfo": "mandisi.dmfunnelsolutions@gmail.com",
+      "q1_isUsingAI": true,
+      "q5_1_factors": {
+        "cost": 2,
+        "skills": 4,
+        "internet": 4,
+        "techAccess": 2
+      },
+      "franchiseName": "Mc Donalds ",
+      "q4_1_benefits": "this thing is so long oh my gosh",
+      "q1_1_toolsUsed": "Google anti-gravity  cloud code  vessel  etc",
+      "participantName": "Mandisi Kgoadi",
+      "q2_1_activities": [
+        "Stock Management",
+        "Ordering",
+        "Customer Service",
+        "Scheduling"
+      ],
+      "q4_2_challenges": "hi sorry",
+      "q1_3_whenStarted": "blah blah blah blah blah blah blah blah",
+      "q1_2_whoUsesTools": "blah blah blah blah blah",
+      "q3_1_improvements": [
+        "Saved Time",
+        "Improved Processes"
+      ],
+      "q2_dailyOperations": "blah blah blah blah blah blah blah bl",
+      "q3_roleInEfficiency": "who who who who",
+      "q2_1_activitiesDetails": "bra bra bra bra bra bra bra bra bra",
+      "q5_2_franchisorSupport": true,
+      "q5_3_toolChoiceControl": "side this thing is so long",
+      "q5_1_factorsExplanation": "yeah yeah yeah yeah yeah yeah yeah",
+      "q3_1_improvementsDetails": "blood do do do papa",
+      "q4_3_employeeResponseText": "black blue yellow red green purple orange gold pink white Gray silver turquoise aluminum",
+      "q4_3_employeeResponseScale": 5,
+      "q5_2_franchisorSupportDetails": "sorry this thing is so long"
+    },
+    "pdf_url": "https://fyvqgxdpwlkmoisskyjx.supabase.co/storage/v1/object/public/pdfs/survey_report_19f858ec-4518-4439-8d3a-27987ad9cef1.pdf"
+  }
+]

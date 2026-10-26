@@ -51,7 +51,7 @@ SUPABASE_KEY = os.environ.get(
     "SUPABASE_SERVICE_ROLE_KEY",
     os.environ.get(
         "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dnFneGRwd2xrbW9pc3NreWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODI3NTksImV4cCI6MjEwNzU1ODc1OX0.BYw98rE7YMa3vhh5XbZBpmo3oUc3QCwUJS2SRYLCdH8"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dnFneGRwd2xrbW9pc3NreWp4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MTk4Mjc1OSwiZXhwIjoyMTA3NTU4NzU5fQ.SQcp-XTiSfBzFjb3XOMgo-_zhQYj3KkE4xfJzGU450U"
     )
 )
 
@@ -73,19 +73,28 @@ def fetch_survey_responses_from_supabase():
             if response.status == 200:
                 raw = response.read().decode("utf-8")
                 data = json.loads(raw)
-                # Ensure directory exists and cache
-                CACHE_RESPONSES_FILE.parent.mkdir(parents=True, exist_ok=True)
-                CACHE_RESPONSES_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+                # Attempt non-blocking cache write to disk (local dev or /tmp)
+                try:
+                    target_file = CACHE_RESPONSES_FILE
+                    if not os.access(CACHE_RESPONSES_FILE.parent, os.W_OK):
+                        target_file = Path("/tmp/survey_responses_cache.json")
+                    target_file.parent.mkdir(parents=True, exist_ok=True)
+                    target_file.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+                except Exception as write_err:
+                    pass
                 return data
     except Exception as e:
         print(f"[!] Warning: Failed to fetch live Supabase survey responses: {e}")
 
-    # Fallback to local cache if available
-    if CACHE_RESPONSES_FILE.exists():
-        try:
-            return json.loads(CACHE_RESPONSES_FILE.read_text(encoding="utf-8"))
-        except Exception:
-            pass
+    # Fallback to local cache if available and has content
+    for cache_path in [CACHE_RESPONSES_FILE, Path("/tmp/survey_responses_cache.json")]:
+        if cache_path.exists():
+            try:
+                cached_data = json.loads(cache_path.read_text(encoding="utf-8"))
+                if isinstance(cached_data, list) and len(cached_data) > 0:
+                    return cached_data
+            except Exception:
+                pass
 
     return []
 
@@ -111,8 +120,14 @@ class handler(BaseHTTPRequestHandler):
                 content_length = int(self.headers.get("Content-Length", 0))
                 body = self.rfile.read(content_length).decode("utf-8")
                 states_data = json.loads(body)
-                LEAD_STATES_FILE.parent.mkdir(parents=True, exist_ok=True)
-                LEAD_STATES_FILE.write_text(json.dumps(states_data, indent=2, ensure_ascii=False), encoding="utf-8")
+                try:
+                    target_file = LEAD_STATES_FILE
+                    if not os.access(LEAD_STATES_FILE.parent, os.W_OK):
+                        target_file = Path("/tmp/lead_states.json")
+                    target_file.parent.mkdir(parents=True, exist_ok=True)
+                    target_file.write_text(json.dumps(states_data, indent=2, ensure_ascii=False), encoding="utf-8")
+                except Exception:
+                    pass
                 
                 resp = json.dumps({"success": True, "count": len(states_data)}).encode("utf-8")
                 self.send_response(200)
@@ -162,7 +177,16 @@ class handler(BaseHTTPRequestHandler):
 
         # 3. Lead States JSON API (Connection requests sent, statuses, notes)
         elif clean_path in ["/api/lead-states", "/data/lead_states.json", "/lead-states.json"]:
-            content = LEAD_STATES_FILE.read_bytes() if LEAD_STATES_FILE.exists() else b"{}"
+            content = b"{}"
+            for p in [Path("/tmp/lead_states.json"), LEAD_STATES_FILE]:
+                if p.exists():
+                    try:
+                        raw = p.read_bytes()
+                        if raw and raw.strip() not in (b"{}", b""):
+                            content = raw
+                            break
+                    except Exception:
+                        pass
             self.send_response(200)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Content-Length", str(len(content)))

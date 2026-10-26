@@ -308,11 +308,19 @@
           </div>
 
           <div class="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
-            <a href="/api/export-docx?id=all" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 active:scale-95 text-white shadow-lg shadow-indigo-500/25 transition min-h-[44px]">
+            <a href="/api/export-docx?id=all" class="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 active:scale-95 text-white shadow-lg shadow-indigo-500/25 transition min-h-[44px]">
               <svg class="w-4 h-4 text-blue-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              <span>Download All Responses (.DOCX)</span>
+              <span>Download .DOCX</span>
             </a>
-            <button onclick="loadSurveyResponses(true)" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-200 border border-slate-700 transition min-h-[44px]">
+            <button onclick="exportResponsesCSV()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white shadow-md transition min-h-[44px]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Export CSV</span>
+            </button>
+            <button onclick="exportResponsesJSON()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-200 border border-slate-700 transition min-h-[44px]">
+              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              <span>JSON</span>
+            </button>
+            <button onclick="loadSurveyResponses(true)" class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 active:bg-slate-700 text-slate-200 border border-slate-700 transition min-h-[44px]">
               <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
               <span>Refresh</span>
             </button>
@@ -1290,9 +1298,43 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
 
     async function loadSurveyResponses(showFeedback = false) {
       try {
-        const res = await fetch('/api/survey-responses');
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
+        let data = [];
+
+        // Channel 1: Query backend API endpoint
+        try {
+          const res = await fetch('/api/survey-responses');
+          if (res.ok) {
+            const json = await res.json();
+            if (Array.isArray(json) && json.length > 0) {
+              data = json;
+            }
+          }
+        } catch (apiErr) {
+          console.warn('API /api/survey-responses fetch notice:', apiErr);
+        }
+
+        // Channel 2: Direct Supabase REST fetch fallback (ensures real-time sync across Vercel / serverless)
+        if (data.length === 0) {
+          try {
+            const sbUrl = "https://fyvqgxdpwlkmoisskyjx.supabase.co/rest/v1/survey_responses?select=*&order=created_at.desc";
+            const sbRes = await fetch(sbUrl, {
+              headers: {
+                "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dnFneGRwd2xrbW9pc3NreWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODI3NTksImV4cCI6MjEwNzU1ODc1OX0.BYw98rE7YMa3vhh5XbZBpmo3oUc3QCwUJS2SRYLCdH8",
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dnFneGRwd2xrbW9pc3NreWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5ODI3NTksImV4cCI6MjEwNzU1ODc1OX0.BYw98rE7YMa3vhh5XbZBpmo3oUc3QCwUJS2SRYLCdH8",
+                "Content-Type": "application/json"
+              }
+            });
+            if (sbRes.ok) {
+              const sbData = await sbRes.json();
+              if (Array.isArray(sbData) && sbData.length > 0) {
+                data = sbData;
+              }
+            }
+          } catch (sbErr) {
+            console.warn('Direct Supabase fetch fallback notice:', sbErr);
+          }
+        }
+
         surveyResponses = Array.isArray(data) ? data : [];
         currentResponses = [...surveyResponses];
 
@@ -1342,6 +1384,95 @@ University of Pretoria | BCom (Hons) Strategic Business Management`;
         console.warn('Error loading survey responses:', err);
         if (showFeedback) showToast('Notice: Using cached responses');
       }
+    }
+
+    function exportResponsesCSV() {
+      if (!surveyResponses || surveyResponses.length === 0) {
+        showToast('No survey responses available to export');
+        return;
+      }
+
+      function escapeCell(val) {
+        if (val === null || val === undefined) return '""';
+        let s = String(val).replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/"/g, '""');
+        return `"${s}"`;
+      }
+
+      const headers = [
+        "Interview_ID", "Submission_Timestamp", "Participant_Name", "Franchise_Name", "Role_In_Business",
+        "Contact_Information", "Q1_AI_Adoption", "Q1_1_Tools_Used", "Q1_2_Who_Uses_Tools", "Q1_3_When_Started",
+        "Q2_Daily_Operations", "Q2_1_Activities", "Q2_1_Activities_Details", "Q3_Role_In_Efficiency",
+        "Q3_1_Improvements", "Q3_1_Improvements_Details", "Q4_1_Benefits", "Q4_2_Challenges",
+        "Q4_3_Employee_Response_Scale_1_to_5", "Q4_3_Employee_Response_Text", "Q5_1_Influence_Internet",
+        "Q5_1_Influence_TechAccess", "Q5_1_Influence_StaffSkills", "Q5_1_Influence_Cost",
+        "Q5_1_Factors_Explanation", "Q5_2_Franchisor_Support", "Q5_2_Franchisor_Support_Details",
+        "Q5_3_Tool_Choice_Control", "Conclusion", "PDF_Report_URL"
+      ];
+
+      const rows = surveyResponses.map(r => {
+        const d = r.response_data || {};
+        const factors = d.q5_1_factors || {};
+        return [
+          escapeCell(r.id),
+          escapeCell(r.created_at),
+          escapeCell(d.participantName),
+          escapeCell(d.franchiseName),
+          escapeCell(d.role),
+          escapeCell(d.contactInfo),
+          escapeCell(d.q1_isUsingAI === true ? "Yes" : d.q1_isUsingAI === false ? "No" : "Yes"),
+          escapeCell(d.q1_1_toolsUsed),
+          escapeCell(d.q1_2_whoUsesTools),
+          escapeCell(d.q1_3_whenStarted),
+          escapeCell(d.q2_dailyOperations),
+          escapeCell(Array.isArray(d.q2_1_activities) ? d.q2_1_activities.join('; ') : d.q2_1_activities),
+          escapeCell(d.q2_1_activitiesDetails),
+          escapeCell(d.q3_roleInEfficiency),
+          escapeCell(Array.isArray(d.q3_1_improvements) ? d.q3_1_improvements.join('; ') : d.q3_1_improvements),
+          escapeCell(d.q3_1_improvementsDetails),
+          escapeCell(d.q4_1_benefits),
+          escapeCell(d.q4_2_challenges),
+          escapeCell(d.q4_3_employeeResponseScale),
+          escapeCell(d.q4_3_employeeResponseText),
+          escapeCell(factors.internet),
+          escapeCell(factors.techAccess),
+          escapeCell(factors.skills),
+          escapeCell(factors.cost),
+          escapeCell(d.q5_1_factorsExplanation),
+          escapeCell(d.q5_2_franchisorSupport === true ? "Yes" : d.q5_2_franchisorSupport === false ? "No" : ""),
+          escapeCell(d.q5_2_franchisorSupportDetails),
+          escapeCell(d.q5_3_toolChoiceControl),
+          escapeCell(d.conclusion),
+          escapeCell(r.pdf_url)
+        ].join(',');
+      });
+
+      const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `UP_Honours_Survey_Responses_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Exported survey responses to CSV');
+    }
+
+    function exportResponsesJSON() {
+      if (!surveyResponses || surveyResponses.length === 0) {
+        showToast('No survey responses available to export');
+        return;
+      }
+      const jsonContent = JSON.stringify(surveyResponses, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `UP_Honours_Survey_Responses_${new Date().toISOString().slice(0, 10)}.json`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('Exported survey responses to JSON');
     }
 
     function filterResponses() {
