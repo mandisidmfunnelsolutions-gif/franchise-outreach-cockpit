@@ -341,10 +341,10 @@ def generate_dashboard():
       <!-- Tabbed Header (Horizontal Scroll on Mobile) -->
       <div class="flex border-b border-slate-800 gap-3 sm:gap-6 text-xs font-semibold overflow-x-auto no-scrollbar whitespace-nowrap px-4 sm:px-6 pt-1 bg-slate-900/60 touch-pan-x">
         <button id="tabPostConnectBtn" onclick="switchTab('postConnect')" class="pb-2.5 pt-2 text-indigo-400 border-b-2 border-indigo-500 transition min-h-[40px] flex items-center">
-          1. Post-Connection LinkedIn DM
+          1. Direct Message (&lt;200 Chars)
         </button>
         <button id="tabPreConnectBtn" onclick="switchTab('preConnect')" class="pb-2.5 pt-2 text-slate-400 hover:text-slate-200 transition min-h-[40px] flex items-center">
-          2. Pre-Connect Note (&lt;300 Chars)
+          2. Connection Note (&lt;200 Chars)
         </button>
         <button id="tabStudyNotesBtn" onclick="switchTab('studyNotes')" class="pb-2.5 pt-2 text-slate-400 hover:text-slate-200 transition min-h-[40px] flex items-center">
           3. Study Context & Cheat-Sheet
@@ -684,31 +684,13 @@ def generate_dashboard():
 
     function generatePersonalizedMessages(lead) {{
       const firstName = lead.first_name || 'there';
-      const brand = lead.company_name || 'your franchise network';
-      const role = lead.job_title || 'Franchise Owner';
-      const location = lead.location || 'South Africa';
+      const surveyUrl = "https://franchise-ai-survey.vercel.app";
 
-      // 1. Full Post-Connection LinkedIn Message
-      const postConnect = `Hi ${{firstName}},
+      // 1. Direct Message (<200 Chars, short, punchy, low-friction)
+      const postConnect = `Hi ${{firstName}}, I'm a University of Pretoria student researching franchise owners.\nLink: ${{surveyUrl}}\nTakes 2 mins & you can talk through responses—no typing needed!`;
 
-Thanks so much for connecting with me here on LinkedIn!
-
-I've been following the impressive footprint of ${{brand}} across ${{location}}, and I'm currently conducting field research for my BCom Honours in Strategic Business Management study at the University of Pretoria.
-
-My research is specifically focused on AI adoption, automation, and operational technology trends across franchise operations in South Africa—exploring where franchise owners see genuine operational value versus current bottlenecks (like inventory forecasting, labor scheduling, customer ordering, and system integrations).
-
-Given your hands-on experience running ${{brand}} as a ${{role}}, your perspective would be invaluable. Would you be open to a brief 10–15 minute conversation (or completing a short confidential questionnaire) to share your thoughts?
-
-All findings are strictly academic, confidential, and anonymous. I would also be delighted to share the final executive summary and benchmark insights with you once completed so you can see where your operations sit relative to the rest of the industry.
-
-Thank you for your time, ${{firstName}}, and I look forward to hearing your thoughts!
-
-Warm regards,
-(Your name)
-University of Pretoria | BCom (Hons) Strategic Business Management`;
-
-      // 2. Pre-Connection Note (<300 Chars)
-      const preConnect = `Hi ${{firstName}}, thank you for connecting! I'm researching AI and automation adoption within franchise operations for my BCom Honours in Strategic Business Management at the University of Pretoria. Given your leadership at ${{brand}}, I'd love to connect and share benchmark findings!`;
+      // 2. Pre-Connection Note (<200 Chars)
+      const preConnect = `Hi ${{firstName}}! I'm a University of Pretoria student researching franchise owners. Join: ${{surveyUrl}} (takes 2 mins & you can talk through responses—no typing needed!)`;
 
       return {{ postConnect, preConnect }};
     }}
